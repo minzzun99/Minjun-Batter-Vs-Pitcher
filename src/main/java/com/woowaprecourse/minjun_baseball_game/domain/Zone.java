@@ -1,5 +1,7 @@
 package com.woowaprecourse.minjun_baseball_game.domain;
 
+import java.util.Objects;
+
 public class Zone {
     private final int number;
 
@@ -14,8 +16,23 @@ public class Zone {
         }
     }
 
-    public boolean equals(Zone other) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Zone other = (Zone) obj;
         return this.number == other.number;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number);
     }
 
     public int getNumber() {
