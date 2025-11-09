@@ -97,3 +97,9 @@
 - [X] 안타일 경우 getOutType 호출 예외 발생 테스트
 - [X] 헛스윙일 경우 getHitType 호출 예외 발생 테스트
 - [X] 헛스윙일 경우 getOutType 호출 예외 발생 테스트
+
+### BattingRecordTest
+
+- [X] 타자 기록 생성 확인 테스트
+- [X] 타율 확인 테스트
+- [X] 실제 기록 기반 안타 종류 결정 테스트
