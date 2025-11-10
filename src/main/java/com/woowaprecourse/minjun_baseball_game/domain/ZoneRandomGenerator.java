@@ -1,23 +1,20 @@
 package com.woowaprecourse.minjun_baseball_game.domain;
 
-import java.util.Random;
+import com.woowaprecourse.minjun_baseball_game.domain.strategy.NumberGenerator;
 
 public class ZoneRandomGenerator {
     private static final int MIN_ZONE_RANGE = 1;
     private static final int MAX_ZONE_RANGE = 9;
 
-    private final Random random;
+    private final NumberGenerator numberGenerator;
 
-    public ZoneRandomGenerator(Random random) {
-        this.random = random;
-    }
-
-    public ZoneRandomGenerator() {
-        this(new Random());
+    public ZoneRandomGenerator(NumberGenerator numberGenerator) {
+        this.numberGenerator = numberGenerator;
     }
 
     public Zone randomZone() {
-        int number = random.nextInt(MAX_ZONE_RANGE - MIN_ZONE_RANGE + 1) + MIN_ZONE_RANGE;
+        double random = numberGenerator.generateNumber();
+        int number = (int) (random * (MAX_ZONE_RANGE - MIN_ZONE_RANGE + 1)) + MIN_ZONE_RANGE;
         return new Zone(number);
     }
 
