@@ -3,10 +3,6 @@
 > 타자 강민준 vs 투수 강민준  
 > 실제 사회인야구 기록 기반 확률형 야구 게임
 
-[![Java](https://img.shields.io/badge/Java-21-red)]()
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-green)]()
-[![React](https://img.shields.io/badge/React-18-blue)]()
-
 ---
 
 ## 🎮 프로젝트 소개
@@ -103,3 +99,10 @@
 - [X] 타자 기록 생성 확인 테스트
 - [X] 타율 확인 테스트
 - [X] 실제 기록 기반 안타 종류 결정 테스트
+
+### PitchResultJudgeTest
+
+- [X] 일반존, 핫존, 콜드존 테스트
+- [X] 안타 결과 판정 테스트
+- [X] 헛스윙 결과 판정 테스트
+- [X] 아웃 결과 판정 테스트
