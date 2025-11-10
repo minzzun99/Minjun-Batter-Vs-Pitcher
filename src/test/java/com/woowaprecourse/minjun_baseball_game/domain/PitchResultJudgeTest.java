@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class PitchResultJudgeTest {
-    private final BattingRecord battingRecord = new BattingRecord("강민준");
+    private final BattingRecord battingRecord = new BattingRecord("강민준", () -> 0.6);
     private final StrikeZone strikeZone = new StrikeZone(new Zone(1), new Zone(9));
 
     @Nested
@@ -25,7 +25,7 @@ public class PitchResultJudgeTest {
             PitchResult result = resultJudge.judge(normalZone, strikeZone);
 
             assertThat(result.isHit()).isTrue();
-            assertThat(result.getHitType()).isNotNull();
+            assertThat(result.getHitType()).isEqualTo(HitType.DOUBLE);
         }
 
         @Test
@@ -67,7 +67,7 @@ public class PitchResultJudgeTest {
             PitchResult result = resultJudge.judge(hotZone, strikeZone);
 
             assertThat(result.isHit()).isTrue();
-            assertThat(result.getHitType()).isNotNull();
+            assertThat(result.getHitType()).isEqualTo(HitType.DOUBLE);
         }
 
         @Test
@@ -109,7 +109,7 @@ public class PitchResultJudgeTest {
             PitchResult result = resultJudge.judge(coldZone, strikeZone);
 
             assertThat(result.isHit()).isTrue();
-            assertThat(result.getHitType()).isNotNull();
+            assertThat(result.getHitType()).isEqualTo(HitType.DOUBLE);
         }
 
         @Test

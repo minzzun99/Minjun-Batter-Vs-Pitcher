@@ -82,7 +82,7 @@ public class StrikeZoneTest {
     }
 
     @Test
-    @DisplayName("핫존 불일치 확인 테스트")
+    @DisplayName("콜드존 불일치 확인 테스트")
     void 콜드존_불일치_확인() {
         Zone hotZone = new Zone(1);
         Zone coldZone = new Zone(2);
