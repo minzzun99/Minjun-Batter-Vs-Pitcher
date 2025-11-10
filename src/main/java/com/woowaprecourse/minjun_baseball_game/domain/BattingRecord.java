@@ -1,5 +1,8 @@
 package com.woowaprecourse.minjun_baseball_game.domain;
 
+import com.woowaprecourse.minjun_baseball_game.domain.strategy.NumberGenerator;
+import lombok.Getter;
+
 public class BattingRecord {
     private static final int TOTAL_AT_BATS = 166;
     private static final int SINGLES = 33;
@@ -7,14 +10,17 @@ public class BattingRecord {
     private static final int TRIPLES = 4;
     private static final int HOMERUNS = 1;
 
+    @Getter
     private final String playerName;
+    private final NumberGenerator numberGenerator;
 
-    public BattingRecord(String playerName) {
+    public BattingRecord(String playerName, NumberGenerator numberGenerator) {
         this.playerName = playerName;
+        this.numberGenerator = numberGenerator;
     }
 
     public HitType decideHitType() {
-        double value = Math.random();
+        double value = numberGenerator.generateNumber();
 
         if (value < getSingleRate()) {
             return HitType.SINGLE;
@@ -30,10 +36,6 @@ public class BattingRecord {
 
     public double getBattingAverage() {
         return (double) getTotalHits() / TOTAL_AT_BATS;
-    }
-
-    public String getPlayerName() {
-        return playerName;
     }
 
     public int getTotalHits() {
