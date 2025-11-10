@@ -7,8 +7,8 @@ import com.woowaprecourse.minjun_baseball_game.domain.ZoneRandomGenerator;
 public class BatterModeZoneStrategy implements ZoneStrategy {
     private final ZoneRandomGenerator generator;
 
-    public BatterModeZoneStrategy() {
-        this.generator = new ZoneRandomGenerator();
+    public BatterModeZoneStrategy(ZoneRandomGenerator generator) {
+        this.generator = generator;
     }
 
     @Override
