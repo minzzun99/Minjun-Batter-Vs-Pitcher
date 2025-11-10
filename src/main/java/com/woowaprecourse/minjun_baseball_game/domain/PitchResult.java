@@ -41,18 +41,6 @@ public class PitchResult {
         return resultType == ResultType.SWING_AND_MISS;
     }
 
-    public boolean allowRunnerAdvance() {
-        if (isHit()) {
-            return true;
-        }
-
-        if (isOut()) {
-            return outType.isRunnerAdvance();
-        }
-
-        return false;
-    }
-
     public HitType getHitType() {
         if (!isHit()) {
             throw new IllegalStateException("아웃은 안타 종류가 없습니다.");
