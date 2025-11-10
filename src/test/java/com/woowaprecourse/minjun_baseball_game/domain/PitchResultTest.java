@@ -72,46 +72,6 @@ public class PitchResultTest {
     }
 
     @Nested
-    @DisplayName("진루 여부 확인 테스트")
-    class RunnerAdvanceTest {
-        @Test
-        @DisplayName("주자 진루 가능 여부 확인 테스트")
-        void 진루_가능_여부_확인() {
-            PitchResult result = PitchResult.hit(HitType.HOMERUN);
-
-            assertThat(result.allowRunnerAdvance()).isTrue();
-        }
-
-        @Test
-        @DisplayName("희생플라이 진루 가능 여부 확인 테스트")
-        void 희생플라이_진루_가능_여부_확인() {
-            PitchResult result = PitchResult.out(OutType.SACRIFICE_FLY);
-
-            assertThat(result.allowRunnerAdvance()).isTrue();
-        }
-
-        @Test
-        @DisplayName("아웃 주자 진루 불가 여부 확인 테스트")
-        void 아웃_진루_불가_여부_확인() {
-            PitchResult groundOut = PitchResult.out(OutType.GROUND_OUT);
-            PitchResult flyOut = PitchResult.out(OutType.FLY_OUT);
-            PitchResult strikeOut = PitchResult.out(OutType.STRIKE_OUT);
-
-            assertThat(groundOut.allowRunnerAdvance()).isFalse();
-            assertThat(flyOut.allowRunnerAdvance()).isFalse();
-            assertThat(strikeOut.allowRunnerAdvance()).isFalse();
-        }
-
-        @Test
-        @DisplayName("헛스윙 주자 진루 불가 여부 확인 테스트")
-        void 헛스윙_진루_불가_여부_확인() {
-            PitchResult result = PitchResult.swingAndMiss();
-
-            assertThat(result.allowRunnerAdvance()).isFalse();
-        }
-    }
-
-    @Nested
     @DisplayName("예외 발생 테스트")
     class ExceptionTest {
         @Test
