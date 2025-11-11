@@ -28,7 +28,7 @@ public class Count {
         out++;
     }
 
-    private void resetStrike() {
+    public void resetStrike() {
         this.strike = 0;
     }
 

@@ -6,7 +6,7 @@ public class ScoreBoard {
     @Getter
     private int myScore;
     @Getter
-    private final int computerScore;
+    private int computerScore;
 
     public ScoreBoard(int myScore, int computerScore) {
         this.myScore = myScore;
@@ -16,6 +16,8 @@ public class ScoreBoard {
     public void addMyScore(int score) {
         this.myScore += score;
     }
+
+    public void addComputerScore(int score) { this.computerScore += score; }
 
     public boolean isWin() {
         return myScore > computerScore;
