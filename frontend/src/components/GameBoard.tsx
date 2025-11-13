@@ -1,22 +1,31 @@
-import { useState } from 'react';
-import { PitchResponse } from '../types/game';
-import { ZoneSelector } from './ZoneSelector';
-import { ScoreBoard } from './ScoreBoard';
+import { useState } from "react";
+import type { PitchResponse } from "../types/game";
+import { ZoneSelector } from "./ZoneSelector";
+import { ScoreBoard } from "./ScoreBoard";
+import "../styles/GameBoard.css";
 
 interface GameBoardProps {
   gameId: string;
   gameMode: string;
   onPitch: (zoneNumber: number) => Promise<void>;
   pitchResult: PitchResponse | null;
+  onRestart: () => void;
 }
 
-export const GameBoard = ({ gameId, gameMode, onPitch, pitchResult }: GameBoardProps) => {
+export const GameBoard = ({
+  gameId,
+  gameMode,
+  onPitch,
+  pitchResult,
+  onRestart,
+}: GameBoardProps) => {
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleZoneClick = async (zone: number) => {
     setSelectedZone(zone);
     setIsLoading(true);
+
     try {
       await onPitch(zone);
     } finally {
@@ -25,72 +34,68 @@ export const GameBoard = ({ gameId, gameMode, onPitch, pitchResult }: GameBoardP
     }
   };
 
+  const isGameOver = pitchResult?.isGameOver ?? false;
+
+  const getResultMessage = () => {
+    if (!pitchResult) return "";
+
+    const my = pitchResult.scoreBoard.myScore;
+    const com = pitchResult.scoreBoard.computerScore;
+
+    if (my > com) return "🏆 승리!";
+    if (my < com) return "😢 패배...";
+    return "🤝 무승부";
+  };
+
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>
-        {gameMode === 'PITCHER' ? '🎯 투수 모드' : '🏏 타자 모드'}
-      </h2>
-      
-      <div style={styles.gameId}>Game ID: {gameId}</div>
+    <div className="gameboard-container stadium">
+      <div className="stadium-inner gameboard-inner">
+        {/* HEADER */}
+        <div className="gameboard-header">
+          <h2 className="gameboard-title">
+            {gameMode === "PITCHER" ? "🎯 투수 모드" : "🏏 타자 모드"}
+          </h2>
 
-      {pitchResult && (
-        <ScoreBoard
-          count={pitchResult.count}
-          runners={pitchResult.runners}
-          scoreBoard={pitchResult.scoreBoard}
-          pitchResult={pitchResult.pitchResult}
+          <div className="gameboard-id">Game ID: {gameId}</div>
+        </div>
+
+        {/* SCOREBOARD */}
+        {pitchResult && (
+          <ScoreBoard
+            count={pitchResult.count}
+            runners={pitchResult.runners}
+            scoreBoard={pitchResult.scoreBoard}
+            pitchResult={pitchResult.pitchResult}
+          />
+        )}
+
+        {/* ZONE SELECTOR */}
+        <ZoneSelector
+          onZoneClick={handleZoneClick}
+          selectedZone={selectedZone}
+          disabled={isLoading || isGameOver}
         />
-      )}
+      </div>
 
-      <ZoneSelector
-        onZoneClick={handleZoneClick}
-        selectedZone={selectedZone}
-        disabled={isLoading || (pitchResult?.gameOver || false)}
-      />
+      {/* GAME OVER MODAL */}
+      {isGameOver && (
+        <div className="game-over-modal-overlay">
+          <div className="game-over-modal">
+            <h2>🎉 게임 종료!</h2>
 
-      {pitchResult?.gameOver && (
-        <div style={styles.gameOver}>
-          <h2>🎉 게임 종료!</h2>
-          <div style={styles.finalScore}>
-            {pitchResult.scoreBoard.myScore} : {pitchResult.scoreBoard.computerScore}
+            <div className="game-over-score">
+              {pitchResult!.scoreBoard.myScore} :{" "}
+              {pitchResult!.scoreBoard.computerScore}
+            </div>
+
+            <div className="game-over-result">{getResultMessage()}</div>
+
+            <button className="game-over-restart" onClick={onRestart}>
+              새 게임 시작
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    padding: '20px',
-    minHeight: '100vh',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  gameId: {
-    fontSize: '12px',
-    color: '#999',
-    marginBottom: '20px',
-  },
-  gameOver: {
-    marginTop: '40px',
-    padding: '30px',
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-    textAlign: 'center' as const,
-  },
-  finalScore: {
-    fontSize: '48px',
-    fontWeight: 'bold',
-    color: '#007bff',
-    marginTop: '20px',
-  },
 };

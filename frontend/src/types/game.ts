@@ -22,7 +22,7 @@ export interface PitchResponse {
   count: Count;
   runners: BaseRunner;
   scoreBoard: ScoreBoard;
-  gameOver: boolean;
+  isGameOver: boolean;
 }
 
 export interface PitchResult {
