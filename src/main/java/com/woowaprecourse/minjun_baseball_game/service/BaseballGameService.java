@@ -11,6 +11,8 @@ import com.woowaprecourse.minjun_baseball_game.domain.strategy.RandomNumberGener
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.ZoneStrategy;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,22 +21,34 @@ public class BaseballGameService {
     private static final String PLAYER_NAME = "강민준";
 
     private final Map<String, BattingRecord> battingRecords;
+    private final Map<String, BaseballGame> games = new ConcurrentHashMap<>();
     private final NumberGenerator numberGenerator;
     private final ZoneRandomGenerator zoneRandomGenerator;
 
     public BaseballGameService() {
-        this.battingRecords = new HashMap<>();
+        this.battingRecords = new ConcurrentHashMap<>();
         this.numberGenerator = new RandomNumberGenerator();
         this.zoneRandomGenerator = new ZoneRandomGenerator(numberGenerator);
 
         initializeBattingRecords();
     }
 
-    public BaseballGame createGame(GameMode gameMode) {
+    public String createGame(GameMode gameMode) {
+        String gameId = UUID.randomUUID().toString();
         BattingRecord record = getBattingRecord(PLAYER_NAME);
         ZoneStrategy strategy = createZoneStrategy(gameMode);
+        BaseballGame game = new BaseballGame(gameMode, record, strategy, numberGenerator, zoneRandomGenerator);
 
-        return new BaseballGame(gameMode, record, strategy, numberGenerator, zoneRandomGenerator);
+        games.put(gameId, game);
+        return gameId;
+    }
+
+    public BaseballGame getGame(String gameId) {
+        BaseballGame game = games.get(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException(gameId + " : 존재하지 않는 게임입니다.");
+        }
+        return game;
     }
 
     private void initializeBattingRecords() {

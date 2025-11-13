@@ -19,7 +19,7 @@ public class BaseballGame {
         this.zoneRandomGenerator = zoneRandomGenerator;
     }
 
-    public void playPitch(int selectedZone) {
+    public PitchResult playPitch(int selectedZone) {
         validateGameNotOver();
 
         Zone userZone = getPitchedZone(selectedZone);
@@ -27,6 +27,8 @@ public class BaseballGame {
 
         PitchResult result = judge.judge(userZone, strikeZone);
         gameState.update(result);
+
+        return result;
     }
 
     public boolean isGameOver() {
