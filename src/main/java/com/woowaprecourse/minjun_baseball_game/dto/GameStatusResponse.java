@@ -13,7 +13,7 @@ public record GameStatusResponse(
     public static GameStatusResponse from(BaseballGame game) {
         return new GameStatusResponse(
                 game.getGameMode(),
-                new CountDto(game.getCount().getStrike(), game.getCount().getOut()),
+                CountDto.from(game.getCount()),
                 BaseRunnerDto.from(game.getBaseRunnerStatus()),
                 ScoreBoardDto.from(game.getScoreBoard()),
                 game.isGameOver()

@@ -26,7 +26,7 @@ public class BaseballGameService {
     private final ZoneRandomGenerator zoneRandomGenerator;
 
     public BaseballGameService() {
-        this.battingRecords = new HashMap<>();
+        this.battingRecords = new ConcurrentHashMap<>();
         this.numberGenerator = new RandomNumberGenerator();
         this.zoneRandomGenerator = new ZoneRandomGenerator(numberGenerator);
 
@@ -50,6 +50,7 @@ public class BaseballGameService {
         }
         return game;
     }
+
     private void initializeBattingRecords() {
         battingRecords.put(PLAYER_NAME, new BattingRecord(PLAYER_NAME, numberGenerator));
     }
