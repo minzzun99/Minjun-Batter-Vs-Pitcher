@@ -36,9 +36,17 @@ public class GameState {
         }
     }
 
-    //9회 기준, 역전하면 아웃 카운트와 상관없이 게임 종료
+    //9회 기준 - 역전하면 아웃 카운트와 상관없이 게임 종료
     public boolean isGameOver() {
-        return count.isThreeOut() || scoreBoard.isWin();
+        if (count.isThreeOut()) {
+            return true;
+        }
+        // 투수 모드 - 역전당하면 즉시 패배
+        if (gameMode == GameMode.PITCHER && scoreBoard.isLose()) {
+            return true;
+        }
+        // 타자 모드 - 역전하면 즉시 승리
+        return gameMode == GameMode.BATTER && scoreBoard.isWin();
     }
 
     public Count getCount() {
