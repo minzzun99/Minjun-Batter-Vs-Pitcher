@@ -1,7 +1,15 @@
+import { GameStart } from './components/GameStart';
+import { GameMode } from './types/game';
+
 function App() {
+  const handleGameStart = (mode: GameMode) => {
+    console.log('Game started with mode:', mode);
+    // TODO: 게임 시작 로직
+  };
+
   return (
     <div>
-      <h1>React 테스트</h1>
+      <GameStart onGameStart={handleGameStart} />
     </div>
   );
 }
