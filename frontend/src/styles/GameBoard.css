@@ -1,0 +1,115 @@
+/* 게임보드 전체 레이아웃 */
+.gameboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px 32px;
+  position: relative;
+}
+
+.gameboard-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e2e8f0;
+}
+
+/* 헤더 */
+.gameboard-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.gameboard-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: #f8fafc;
+}
+
+.gameboard-id {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+/* ========================= */
+/*        GAME OVER MODAL    */
+/* ========================= */
+
+/* 전체 화면을 덮는 어두운 배경 */
+.game-over-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+/* 모달 박스 */
+.game-over-modal {
+  background: rgba(30, 41, 59, 0.9);
+  border-radius: 20px;
+  padding: 32px 40px;
+  text-align: center;
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+/* 모달 애니메이션 */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 점수 */
+.game-over-score {
+  font-size: 48px;
+  font-weight: 800;
+  margin: 20px 0;
+  color: #38bdf8;
+}
+
+/* 승리/패배/무승부 텍스트 */
+.game-over-result {
+  font-size: 28px;
+  margin-bottom: 28px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+/* 새 게임 버튼 */
+.game-over-restart {
+  padding: 14px 36px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.game-over-restart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+}
