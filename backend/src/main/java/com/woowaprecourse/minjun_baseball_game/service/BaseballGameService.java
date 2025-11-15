@@ -3,6 +3,7 @@ package com.woowaprecourse.minjun_baseball_game.service;
 import com.woowaprecourse.minjun_baseball_game.domain.BaseballGame;
 import com.woowaprecourse.minjun_baseball_game.domain.BattingRecord;
 import com.woowaprecourse.minjun_baseball_game.domain.GameMode;
+import com.woowaprecourse.minjun_baseball_game.domain.Player;
 import com.woowaprecourse.minjun_baseball_game.domain.ZoneRandomGenerator;
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.BatterModeZoneStrategy;
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.NumberGenerator;
@@ -33,9 +34,9 @@ public class BaseballGameService {
         initializeBattingRecords();
     }
 
-    public String createGame(GameMode gameMode) {
+    public String createGame(GameMode gameMode, Player player) {
         String gameId = UUID.randomUUID().toString();
-        BattingRecord record = getBattingRecord(PLAYER_NAME);
+        BattingRecord record = player.toBattingRecord(numberGenerator);
         ZoneStrategy strategy = createZoneStrategy(gameMode);
         BaseballGame game = new BaseballGame(gameMode, record, strategy, numberGenerator, zoneRandomGenerator);
 
