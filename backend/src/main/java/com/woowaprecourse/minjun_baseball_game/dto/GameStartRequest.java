@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GameStartRequest {
+    private Long playerId;
     private GameMode gameMode;
 }
