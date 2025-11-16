@@ -34,4 +34,12 @@ public class StrikeZone {
     public boolean isColdZone(Zone zone) {
         return coldZone.equals(zone);
     }
+
+    public int getHotZoneNumber() {
+        return hotZone.getNumber();
+    }
+
+    public int getColdZoneNumber() {
+        return coldZone.getNumber();
+    }
 }
