@@ -3,6 +3,7 @@ package com.woowaprecourse.minjun_baseball_game.controller;
 import com.woowaprecourse.minjun_baseball_game.domain.BaseballGame;
 import com.woowaprecourse.minjun_baseball_game.domain.PitchResult;
 import com.woowaprecourse.minjun_baseball_game.domain.Player;
+import com.woowaprecourse.minjun_baseball_game.domain.StrikeZone;
 import com.woowaprecourse.minjun_baseball_game.dto.GameResultResponse;
 import com.woowaprecourse.minjun_baseball_game.dto.GameStartRequest;
 import com.woowaprecourse.minjun_baseball_game.dto.GameStartResponse;
@@ -57,9 +58,16 @@ public class GameController {
     @PostMapping("/{gameId}/pitch")
     public PitchResponse pitch(@PathVariable String gameId, @RequestBody PitchRequest request) {
         BaseballGame game = gameService.getGame(gameId);
+        int selectedZone = request.getZoneNumber();
+
         PitchResult result = game.playPitch(request.getZoneNumber());
 
-        return PitchResponse.from(result, game);
+        StrikeZone lastStrikeZone = game.getLastStrikeZone();
+        int pitchZone = game.getLastPitchZone();
+        int hotZone = lastStrikeZone.getHotZoneNumber();
+        int coldZone = lastStrikeZone.getColdZoneNumber();
+
+        return PitchResponse.from(result, game, selectedZone, pitchZone, hotZone, coldZone);
     }
 
     // 게임 상태 조회

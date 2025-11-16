@@ -8,15 +8,18 @@ public record PitchResponse (
         CountDto count,
         BaseRunnerDto runners,
         ScoreBoardDto scoreBoard,
-        boolean isGameOver
+        boolean isGameOver,
+        ZoneInfoDto zoneInfoDto
 ) {
-    public static PitchResponse from(PitchResult pitchResult, BaseballGame game) {
+    public static PitchResponse from(PitchResult pitchResult, BaseballGame game, int selectedZone, int pitchZone,
+                                     int hotZone, int coldZone) {
         return new PitchResponse(
                 PitchResultDto.from(pitchResult),
                 CountDto.from(game.getCount()),
                 BaseRunnerDto.from(game.getBaseRunnerStatus()),
                 ScoreBoardDto.from(game.getScoreBoard()),
-                game.isGameOver()
+                game.isGameOver(),
+                new ZoneInfoDto(selectedZone, pitchZone, hotZone, coldZone)
         );
     }
 }
