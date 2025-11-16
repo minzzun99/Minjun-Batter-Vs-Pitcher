@@ -18,20 +18,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BaseballGameService {
-    // 전체 구현 후 DB로 사용자 추가 구현
-    private static final String PLAYER_NAME = "강민준";
-
-    private final Map<String, BattingRecord> battingRecords;
     private final Map<String, BaseballGame> games = new ConcurrentHashMap<>();
     private final NumberGenerator numberGenerator;
     private final ZoneRandomGenerator zoneRandomGenerator;
 
     public BaseballGameService() {
-        this.battingRecords = new ConcurrentHashMap<>();
         this.numberGenerator = new RandomNumberGenerator();
         this.zoneRandomGenerator = new ZoneRandomGenerator(numberGenerator);
-
-        initializeBattingRecords();
     }
 
     public String createGame(GameMode gameMode, Player player) {
@@ -50,22 +43,6 @@ public class BaseballGameService {
             throw new IllegalArgumentException(gameId + " : 존재하지 않는 게임입니다.");
         }
         return game;
-    }
-
-    private void initializeBattingRecords() {
-        battingRecords.put(PLAYER_NAME, new BattingRecord(PLAYER_NAME, numberGenerator));
-    }
-
-    private BattingRecord getBattingRecord(String playerName) {
-        BattingRecord record = battingRecords.get(playerName);
-        validatePlayerName(record, playerName);
-        return record;
-    }
-
-    private void validatePlayerName(BattingRecord record, String playerName) {
-        if (record == null) {
-            throw new IllegalArgumentException(playerName + " : 존재하지 않는 선수입니다.");
-        }
     }
 
     private ZoneStrategy createZoneStrategy(GameMode gameMode) {
