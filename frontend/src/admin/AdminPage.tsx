@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";   // 🔥 추가
 import PlayerTable from "../admin/PlayerTable";
 import PlayerForm from "../admin/PlayerForm";
 import "../styles/admin.css";
@@ -41,7 +42,7 @@ export default function AdminPlayersPage() {
 
       setMessage("선수 추가 완료!");
       fetchPlayers();
-      setShowForm(false); // 🔥 폼 닫기
+      setShowForm(false);
       return true;
     } catch {
       alert("선수 추가 실패");
@@ -86,6 +87,10 @@ export default function AdminPlayersPage() {
 
   return (
     <div className="admin-container">
+
+      {/* 🔥 메인페이지 이동 버튼 */}
+      <Link to="/" className="admin-back-btn">← 메인으로</Link>
+
       <h1 className="admin-title">⚾ 관리자 - 선수 관리</h1>
 
       {message && <div className="admin-message">{message}</div>}
@@ -117,7 +122,6 @@ export default function AdminPlayersPage() {
         </div>
       )}
 
-      {/* 선수 목록 */}
       <PlayerTable
         players={players}
         onEdit={(p) => {
