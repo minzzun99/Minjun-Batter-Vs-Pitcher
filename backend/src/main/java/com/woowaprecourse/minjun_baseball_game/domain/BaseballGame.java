@@ -2,13 +2,19 @@ package com.woowaprecourse.minjun_baseball_game.domain;
 
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.NumberGenerator;
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.ZoneStrategy;
+import lombok.Getter;
 
 public class BaseballGame {
+    @Getter
     private final GameMode gameMode;
     private final GameState gameState;
     private final PitchResultJudge judge;
     private final ZoneStrategy zoneStrategy;
     private final ZoneRandomGenerator zoneRandomGenerator;
+
+    @Getter
+    private StrikeZone lastStrikeZone;
+    private Zone lastPitchZone;
 
     public BaseballGame(GameMode gameMode, BattingRecord battingRecord, ZoneStrategy zoneStrategy,
                         NumberGenerator numberGenerator, ZoneRandomGenerator zoneRandomGenerator) {
@@ -25,6 +31,9 @@ public class BaseballGame {
         Zone userZone = getPitchedZone(selectedZone);
         StrikeZone strikeZone = zoneStrategy.generate(selectedZone);
 
+        this.lastStrikeZone = strikeZone;
+        this.lastPitchZone = userZone;
+
         PitchResult result = judge.judge(userZone, strikeZone);
         gameState.update(result);
 
@@ -33,10 +42,6 @@ public class BaseballGame {
 
     public boolean isGameOver() {
         return gameState.isGameOver();
-    }
-
-    public GameMode getGameMode() {
-        return gameMode;
     }
 
     public Count getCount() {
@@ -63,6 +68,13 @@ public class BaseballGame {
         }
 
         return GameResult.DRAW;
+    }
+
+    public int getLastPitchZone() {
+        if (lastStrikeZone != null) {
+            return lastPitchZone.getNumber();
+        }
+        return 0;
     }
 
     private void validateGameNotOver() {
