@@ -1,55 +1,175 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameMode } from "../types/game";
+import { Link } from "react-router-dom";
 import "../styles/GameStart.css";
 
+interface PlayerDto {
+  id: number;
+  name: string;
+  totalAtBats: number;
+  singles: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
+  battingAverage: number;
+}
+
 interface GameStartProps {
-  onGameStart: (mode: GameMode) => void;
+  onGameStart: (mode: GameMode, playerId: number) => void;
 }
 
 export const GameStart = ({ onGameStart }: GameStartProps) => {
   const [selectedMode, setSelectedMode] = useState<GameMode | null>(null);
+  const [players, setPlayers] = useState<PlayerDto[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerDto | null>(null);
 
+  useEffect(() => {
+    fetch("/api/game/players")
+      .then((res) => res.json())
+      .then((data) => setPlayers(data))
+      .catch(() => alert("선수 목록 불러오기 실패"));
+  }, []);
+
+  // 계산 함수 -------------------------------
+  const calcTotalHits = (p: PlayerDto) =>
+    p.singles + p.doubles + p.triples + p.homeRuns;
+
+  const calcTotalBases = (p: PlayerDto) =>
+    p.singles * 1 + p.doubles * 2 + p.triples * 3 + p.homeRuns * 4;
+
+  const calcAVG = (p: PlayerDto) =>
+    p.totalAtBats > 0 ? (calcTotalHits(p) / p.totalAtBats).toFixed(3) : "0.000";
+
+  const calcSLG = (p: PlayerDto) =>
+    p.totalAtBats > 0
+      ? (calcTotalBases(p) / p.totalAtBats).toFixed(3)
+      : "0.000";
+
+  const calcOPS = (p: PlayerDto) => {
+    const avg = Number(calcAVG(p));
+    const slg = Number(calcSLG(p));
+    return (avg + slg).toFixed(3);
+  };
+
+  // 기본값
+  const defaultStats = {
+    avg: "0.000",
+    slg: "0.000",
+    ops: "0.000",
+  };
+
+  const stats = selectedPlayer
+    ? {
+        avg: calcAVG(selectedPlayer),
+        slg: calcSLG(selectedPlayer),
+        ops: calcOPS(selectedPlayer),
+      }
+    : defaultStats;
+
+  // 게임 시작
   const handleStart = () => {
-    if (selectedMode) onGameStart(selectedMode);
+    if (!selectedMode || !selectedPlayer) return;
+    onGameStart(selectedMode, selectedPlayer.id);
   };
 
   return (
-    <div className="gamestart-container stadium">
-      <div className="stadium-inner">
-        <div className="gamestart-content">
-          <h1 className="gamestart-title">타자 강민준 VS 투수 강민준</h1>
-          <p className="gamestart-subtitle">모드를 선택하세요</p>
+    <div className="gs-container stadium">
+      {/* 관리자 버튼 */}
+      <Link to="/admin/players" className="admin-btn">
+        <span className="admin-label">⚙</span>
+      </Link>
 
-          <div className="gamestart-mode-container">
-            <button
-              className={`gamestart-mode-btn ${
-                selectedMode === GameMode.PITCHER ? "selected" : ""
-              }`}
-              onClick={() => setSelectedMode(GameMode.PITCHER)}
-            >
-              <div className="mode-title">🎯 투수 모드</div>
-              <div className="mode-desc">존을 선택해서 투구하세요</div>
-            </button>
+      {/* 히어로 */}
+      <div className="stadium-inner gs-hero-bg">
+        <div className="gs-hero-content">
+          <h1 className="gs-title">실제 기록 기반 미니 야구게임</h1>
+          <p className="gs-subtitle">당신의 기록으로 야구게임을 즐겨보세요!</p>
 
+          {/* 모드 선택 */}
+          <div className="gs-mode-container">
             <button
-              className={`gamestart-mode-btn ${
+              className={`gs-mode-btn ${
                 selectedMode === GameMode.BATTER ? "selected" : ""
               }`}
               onClick={() => setSelectedMode(GameMode.BATTER)}
             >
-              <div className="mode-title">🏏 타자 모드</div>
-              <div className="mode-desc">핫존을 선택해서 타격하세요</div>
+              타자 모드
+            </button>
+
+            <button
+              className={`gs-mode-btn ${
+                selectedMode === GameMode.PITCHER ? "selected" : ""
+              }`}
+              onClick={() => setSelectedMode(GameMode.PITCHER)}
+            >
+              투수 모드
             </button>
           </div>
-
-          <button
-            className={`gamestart-start-btn ${selectedMode ? "" : "disabled"}`}
-            onClick={handleStart}
-            disabled={!selectedMode}
-          >
-            게임 시작
-          </button>
         </div>
+      </div>
+
+      {/* 선수 선택 + 기본값 표시 */}
+      {selectedMode && (
+        <div className="player-select-section">
+          
+          {/* 선수 선택 */}
+          <div className="player-select-wrapper">
+            <label className="player-label">선수 선택</label>
+
+            <select
+              className="player-select"
+              value={selectedPlayer?.id ?? ""}
+              onChange={(e) => {
+                const id = Number(e.target.value);
+                const player = players.find((p) => p.id === id) || null;
+                setSelectedPlayer(player);
+              }}
+            >
+              <option value="" disabled>
+                {players.length === 0
+                  ? "등록된 선수가 없습니다"
+                  : "선수를 선택하세요"}
+              </option>
+
+              {players.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 선택 전에도 0.000 기본값 보여줌 */}
+          <div className="player-stats-grid">
+            <div className="player-stat-box">
+              <div className="player-stat-label">타율 AVG</div>
+              <div className="player-stat-value">{stats.avg}</div>
+            </div>
+
+            <div className="player-stat-box">
+              <div className="player-stat-label">장타율 SLG</div>
+              <div className="player-stat-value">{stats.slg}</div>
+            </div>
+
+            <div className="player-stat-box">
+              <div className="player-stat-label">OPS</div>
+              <div className="player-stat-value">{stats.ops}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 게임 시작 버튼 */}
+      <div className="gs-start-container">
+        <button
+          className={`gs-start-btn ${
+            selectedMode && selectedPlayer ? "" : "disabled"
+          }`}
+          onClick={handleStart}
+          disabled={!selectedMode || !selectedPlayer}
+        >
+          게임 시작
+        </button>
       </div>
     </div>
   );

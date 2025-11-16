@@ -1,7 +1,6 @@
 import { api } from './api';
 import type{ 
   GameMode, 
-  GameStartResponse, 
   PitchResponse, 
   GameStatusResponse, 
   GameResultResponse 
@@ -9,10 +8,19 @@ import type{
 
 export const gameApi = {
   // 게임 시작
-  startGame: async (gameMode: GameMode): Promise<GameStartResponse> => {
-    const response = await api.post('/game/start', { gameMode });
-    return response.data;
-  },
+  startGame: async (mode: GameMode, playerId: number) => {
+  const res = await fetch("/api/game/start", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      gameMode: mode,
+      playerId: playerId,
+    }),
+  });
+
+  if (!res.ok) throw new Error("게임 시작 실패!");
+  return res.json();
+},
 
   // 투구
   pitch: async (gameId: string, zoneNumber: number): Promise<PitchResponse> => {
