@@ -1,0 +1,64 @@
+.playertable-wrapper {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-top: 10px;
+}
+
+.playertable {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+.playertable th {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.playertable td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 🔥 가운데 정렬 추가 */
+.playertable th,
+.playertable td {
+  text-align: center;
+}
+
+.playertable-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.playertable-btn {
+  padding: 6px 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 0;
+}
+
+.playertable-btn.edit {
+  background: #137fec;
+  color: white;
+}
+
+.playertable-btn.edit:hover {
+  background: #0f6cd0;
+}
+
+.playertable-btn.delete {
+  background: #e11d48;
+  color: white;
+}
+
+.playertable-btn.delete:hover {
+  background: #be123c;
+}
