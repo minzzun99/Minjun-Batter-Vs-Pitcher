@@ -57,14 +57,10 @@ export interface PitchResponse {
   pitchResult: PitchResult;
   count: Count;
   runners: BaseRunner;
-
-  // 통일된 ScoreBoard 구조 적용
   scoreBoard: ScoreBoard;
-
   isGameOver: boolean;
-
-  // 선택 & 투구 위치 및 핫존/콜드존 정보
   zoneInfoDto?: ZoneInfoDto;
+  gameStatistics?: GameStatistics;
 }
 
 // 게임 중 상태 요청
@@ -81,4 +77,18 @@ export interface GameStatusResponse {
 export interface GameResultResponse {
   result: string;
   scoreBoard: ScoreBoard;
+}
+
+export interface GameStatistics {
+  singles: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
+  strikeOuts: number;
+  groundOuts: number;
+  flyOuts: number;
+  totalHits: number;
+  totalOuts: number;
+  totalAtBats: number;
+  battingAverage: number;
 }

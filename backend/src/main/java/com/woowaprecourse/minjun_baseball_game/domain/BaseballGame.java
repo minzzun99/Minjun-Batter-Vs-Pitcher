@@ -77,6 +77,10 @@ public class BaseballGame {
         return 0;
     }
 
+    public GameStatistics getStatistics() {
+        return gameState.getGameStatistics();
+    }
+
     private void validateGameNotOver() {
         if (isGameOver()) {
             throw new IllegalStateException("게임이 종료되었습니다.");

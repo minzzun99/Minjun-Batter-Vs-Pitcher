@@ -11,6 +11,7 @@ public class GameState {
     private final BaseRunner baseRunner;
     private final ScoreBoard scoreBoard;
     private final NumberGenerator numberGenerator;
+    private final GameStatistics gameStatistics;
 
     public GameState(GameMode gameMode, NumberGenerator numberGenerator) {
         this.gameMode = gameMode;
@@ -18,6 +19,7 @@ public class GameState {
         this.baseRunner = new BaseRunner();
         this.scoreBoard = new ScoreBoard(gameMode.getInitMyScore(), gameMode.getInitComputerScore());
         this.numberGenerator = numberGenerator;
+        this.gameStatistics = new GameStatistics();
     }
 
     public void update(PitchResult result) {
@@ -61,18 +63,24 @@ public class GameState {
         return scoreBoard;
     }
 
+    public GameStatistics getGameStatistics() {
+        return gameStatistics;
+    }
+
     private void handleSwingAndMiss() {
         count.addStrike();
         checkAndClearRunners();
     }
 
     private void handleHit(PitchResult result) {
+        gameStatistics.recordHit(result.getHitType());
         int score = baseRunner.advance(result.getHitType());
         addScore(score);
         count.resetStrike();
     }
 
     private void handleOut(PitchResult result) {
+        gameStatistics.recordOut(result.getOutType());
         processSacrificeFly(result);
         count.addOut();
         count.resetStrike();
