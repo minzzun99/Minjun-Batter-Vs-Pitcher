@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { PitchResponse } from "../types/game";
 import { ZoneSelector } from "./ZoneSelector";
 import { ScoreBoard } from "./ScoreBoard";
@@ -21,16 +21,35 @@ export const GameBoard = ({
 }: GameBoardProps) => {
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showZoneInfo, setShowZoneInfo] = useState(false);
+
+  // pitchResult 업데이트 감지
+  useEffect(() => {
+    if (pitchResult?.zoneInfoDto && isLoading) {
+      setShowZoneInfo(true);
+      
+      // 2.5초 유지
+      const timer = setTimeout(() => {
+        setShowZoneInfo(false);
+        setSelectedZone(null);
+      }, 2500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [pitchResult, isLoading]);
 
   const handleZoneClick = async (zone: number) => {
     setSelectedZone(zone);
     setIsLoading(true);
+    setShowZoneInfo(false);
 
     try {
       await onPitch(zone);
     } finally {
-      setIsLoading(false);
-      setSelectedZone(null);
+      // isLoading은 존 정보 표시 후에 끄기
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2600);
     }
   };
 
@@ -74,6 +93,8 @@ export const GameBoard = ({
           onZoneClick={handleZoneClick}
           selectedZone={selectedZone}
           disabled={isLoading || isGameOver}
+          zoneInfo={showZoneInfo ? pitchResult?.zoneInfoDto : null}
+          gameMode={gameMode}
         />
       </div>
 

@@ -13,8 +13,8 @@ function App() {
   const [pitchResult, setPitchResult] = useState<PitchResponse | null>(null);
 
   // 시즌 기록
-  const seasonAvg = 0.000;
-  const seasonEra = 0.00;
+  const seasonAvg = 0.0;
+  const seasonEra = 0.0;
 
   // mode + playerId를 받아서 게임 시작
   const handleGameStart = async (mode: GameMode, playerId: number) => {

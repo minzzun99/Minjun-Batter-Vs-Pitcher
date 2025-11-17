@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";   // 🔥 추가
+import { Link } from "react-router-dom";
 import PlayerTable from "../admin/PlayerTable";
 import PlayerForm from "../admin/PlayerForm";
 import "../styles/admin.css";
@@ -88,10 +88,10 @@ export default function AdminPlayersPage() {
   return (
     <div className="admin-container">
 
-      {/* 🔥 메인페이지 이동 버튼 */}
+      {/* 메인페이지 이동 버튼 */}
       <Link to="/" className="admin-back-btn">← 메인으로</Link>
 
-      <h1 className="admin-title">⚾ 관리자 - 선수 관리</h1>
+      <h1 className="admin-title">관리자 - 선수 관리</h1>
 
       {message && <div className="admin-message">{message}</div>}
 

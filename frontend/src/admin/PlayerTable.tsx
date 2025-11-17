@@ -24,8 +24,7 @@ export default function PlayerTable({ players, onEdit, onDelete }) {
               <td>{player.id}</td>
               <td>{player.name}</td>
               <td>{player.totalAtBats}</td>
-
-              {/* 새로 추가된 기록들 */}
+              
               <td>{player.singles}</td>
               <td>{player.doubles}</td>
               <td>{player.triples}</td>
