@@ -41,7 +41,6 @@
 /*        GAME OVER MODAL    */
 /* ========================= */
 
-/* 전체 화면을 덮는 어두운 배경 */
 .game-over-modal-overlay {
   position: fixed;
   top: 0;
@@ -56,7 +55,6 @@
   z-index: 50;
 }
 
-/* 모달 박스 */
 .game-over-modal {
   background: rgba(30, 41, 59, 0.9);
   border-radius: 20px;
@@ -68,7 +66,6 @@
   animation: modalFadeIn 0.25s ease-out;
 }
 
-/* 모달 애니메이션 */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -80,7 +77,6 @@
   }
 }
 
-/* 점수 */
 .game-over-score {
   font-size: 48px;
   font-weight: 800;
@@ -88,7 +84,6 @@
   color: #38bdf8;
 }
 
-/* 승리/패배/무승부 텍스트 */
 .game-over-result {
   font-size: 28px;
   margin-bottom: 28px;
@@ -96,7 +91,6 @@
   color: #f1f5f9;
 }
 
-/* 새 게임 버튼 */
 .game-over-restart {
   padding: 14px 36px;
   border-radius: 12px;
@@ -112,4 +106,162 @@
 .game-over-restart:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+}
+
+/* ========================= */
+/*      스트라이크 존         */
+/* ========================= */
+
+.zone-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.zone-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.zone-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.zone-btn {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  font-size: 32px;
+  font-weight: 700;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.zone-btn:hover:not(.disabled):not(.selected) {
+  transform: translateY(-4px);
+  background: rgba(51, 65, 85, 0.65);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* 핫존 (빨간색) */
+.zone-btn.hot-zone {
+  background: rgba(239, 68, 68, 0.5) !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+/* 콜드존 (파란색) */
+.zone-btn.cold-zone {
+  background: rgba(59, 130, 246, 0.5) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* 선택된 존 */
+.zone-btn.selected {
+  background: rgba(56, 189, 248, 0.3);
+  border-color: #38bdf8 !important;
+  border-width: 3px !important;
+  transform: scale(0.95);
+  color: #f0f9ff;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6) !important;
+}
+
+.zone-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 존 번호 */
+.zone-number {
+  position: relative;
+  z-index: 1;
+}
+
+/* 공 애니메이션 */
+.baseball {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  z-index: 2;
+  animation: pitch 0.5s ease-out;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes pitch {
+  0% {
+    transform: translate(-50%, -200%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* 범례 */
+.zone-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+  margin: 24px auto 0;
+  padding: 16px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.legend-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid rgba(148, 163, 184, 0.4);
+  flex-shrink: 0;
+}
+
+.legend-color.hot {
+  background: rgba(239, 68, 68, 0.6);
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+.legend-color.cold {
+  background: rgba(59, 130, 246, 0.6);
+  border-color: #3b82f6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+
+.legend-color.ball {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
