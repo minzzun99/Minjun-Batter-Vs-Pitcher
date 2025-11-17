@@ -11,21 +11,23 @@ function App() {
   const [gameId, setGameId] = useState("");
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
   const [pitchResult, setPitchResult] = useState<PitchResponse | null>(null);
+  const [playerId, setPlayerId] = useState<number | null>(null);
 
   // 시즌 기록
   const seasonAvg = 0.0;
   const seasonEra = 0.0;
 
-  // mode + playerId를 받아서 게임 시작
+  /** 🎮 게임 시작 */
   const handleGameStart = async (mode: GameMode, playerId: number) => {
     try {
       const response = await gameApi.startGame(mode, playerId);
 
+      setPlayerId(playerId);
       setGameId(response.gameId);
       setGameMode(response.gameMode);
       setGameStarted(true);
 
-      // 초기 상태
+      // 초기 상태 설정
       setPitchResult({
         pitchResult: { type: "READY", detail: null },
         count: { strike: 0, out: 0 },
@@ -39,6 +41,7 @@ function App() {
     }
   };
 
+  /** ⚾ 투구 요청 */
   const handlePitch = async (zoneNumber: number) => {
     if (!gameId) return;
 
@@ -50,11 +53,37 @@ function App() {
     }
   };
 
-  const handleRestart = () => {
+  /** 🔁 다시하기 — 같은 플레이어로 새 게임 진행 */
+  const handleRetry = async () => {
+    if (!gameMode || playerId === null) return;
+
+    try {
+      const response = await gameApi.startGame(gameMode, playerId);
+
+      setGameId(response.gameId);
+      setPitchResult({
+        pitchResult: { type: "READY", detail: null },
+        count: { strike: 0, out: 0 },
+        runners: { first: false, second: false, third: false },
+        scoreBoard: response.scoreBoard,
+        isGameOver: false,
+      });
+
+      // GameBoard 유지!
+      setGameStarted(true);
+    } catch (err) {
+      console.error(err);
+      alert("다시하기 실패!");
+    }
+  };
+
+  /** 🏠 메인으로 돌아가기 */
+  const handleGoHome = () => {
     setGameStarted(false);
     setGameId("");
     setGameMode(null);
     setPitchResult(null);
+    setPlayerId(null);
   };
 
   return (
@@ -76,7 +105,8 @@ function App() {
                 gameMode={gameMode!}
                 pitchResult={pitchResult}
                 onPitch={handlePitch}
-                onRestart={handleRestart}
+                onGoHome={handleGoHome}
+                onRetry={handleRetry}
               />
             )
           }

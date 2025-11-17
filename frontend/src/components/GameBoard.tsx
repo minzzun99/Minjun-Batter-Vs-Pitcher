@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { PitchResponse } from "../types/game";
+import type { PitchResponse, GameStatistics } from "../types/game";
 import { ZoneSelector } from "./ZoneSelector";
 import { ScoreBoard } from "./ScoreBoard";
 import "../styles/GameBoard.css";
@@ -9,7 +9,8 @@ interface GameBoardProps {
   gameMode: string;
   onPitch: (zoneNumber: number) => Promise<void>;
   pitchResult: PitchResponse | null;
-  onRestart: () => void;
+  onGoHome: () => void;
+  onRetry: () => void;
 }
 
 export const GameBoard = ({
@@ -17,26 +18,45 @@ export const GameBoard = ({
   gameMode,
   onPitch,
   pitchResult,
-  onRestart,
+  onGoHome,
+  onRetry,
 }: GameBoardProps) => {
   const [selectedZone, setSelectedZone] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showZoneInfo, setShowZoneInfo] = useState(false);
+  const [gameStats, setGameStats] = useState<GameStatistics | null>(null);
 
   // pitchResult 업데이트 감지
   useEffect(() => {
     if (pitchResult?.zoneInfoDto && isLoading) {
       setShowZoneInfo(true);
-      
-      // 2.5초 유지
+
       const timer = setTimeout(() => {
         setShowZoneInfo(false);
         setSelectedZone(null);
       }, 2500);
-      
+
       return () => clearTimeout(timer);
     }
   }, [pitchResult, isLoading]);
+
+  useEffect(() => {
+    if (pitchResult?.isGameOver && !gameStats) {
+      fetchGameResult();
+    }
+  }, [pitchResult?.isGameOver]);
+
+  const fetchGameResult = async () => {
+    try {
+      const response = await fetch(`/api/game/${gameId}/result`);
+      const data = await response.json();
+
+      console.log("Game Result:", data);
+      setGameStats(data.gameStatistics);
+    } catch (error) {
+      console.error("Failed to fetch game result:", error);
+    }
+  };
 
   const handleZoneClick = async (zone: number) => {
     setSelectedZone(zone);
@@ -46,7 +66,6 @@ export const GameBoard = ({
     try {
       await onPitch(zone);
     } finally {
-      // isLoading은 존 정보 표시 후에 끄기
       setTimeout(() => {
         setIsLoading(false);
       }, 2600);
@@ -61,9 +80,9 @@ export const GameBoard = ({
     const my = pitchResult.scoreBoard.myScore;
     const com = pitchResult.scoreBoard.computerScore;
 
-    if (my > com) return "🏆 승리!";
-    if (my < com) return "😢 패배...";
-    return "🤝 무승부";
+    if (my > com) return "승리!";
+    if (my < com) return "패배..";
+    return "무승부";
   };
 
   return (
@@ -102,7 +121,7 @@ export const GameBoard = ({
       {isGameOver && (
         <div className="game-over-modal-overlay">
           <div className="game-over-modal">
-            <h2>🎉 게임 종료!</h2>
+            <h1>게임 결과</h1>
 
             <div className="game-over-score">
               {pitchResult!.scoreBoard.myScore} :{" "}
@@ -111,9 +130,85 @@ export const GameBoard = ({
 
             <div className="game-over-result">{getResultMessage()}</div>
 
-            <button className="game-over-restart" onClick={onRestart}>
-              새 게임 시작
-            </button>
+            {/* 경기 통계 */}
+            {gameStats ? (
+              <div className="game-stats-section">
+                <h2 className="game-stats-title">경기 기록</h2>
+
+                <div className="game-stats-category">
+                  <h3>안타 통계</h3>
+                  <div className="game-stats-grid">
+                    <div className="stat-box">
+                      <span className="stat-label">1루타</span>
+                      <span className="stat-value">{gameStats.singles}</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-label">2루타</span>
+                      <span className="stat-value">{gameStats.doubles}</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-label">3루타</span>
+                      <span className="stat-value">{gameStats.triples}</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-label">홈런</span>
+                      <span className="stat-value">{gameStats.homeRuns}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="game-stats-category">
+                  <h3>아웃 통계</h3>
+                  <div className="outs-grid">
+                    <div className="stat-box">
+                      <span className="stat-label">삼진</span>
+                      <span className="stat-value">{gameStats.strikeOuts}</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-label">땅볼</span>
+                      <span className="stat-value">{gameStats.groundOuts}</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-label">플라이</span>
+                      <span className="stat-value">{gameStats.flyOuts}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="game-stats-summary">
+                  <div className="stat-highlight">
+                    <span className="stat-label">타율</span>
+                    <span className="stat-value-big">
+                      {gameStats.battingAverage.toFixed(3)}
+                    </span>
+                  </div>
+                  <div className="stat-highlight">
+                    <span className="stat-label">총 안타</span>
+                    <span className="stat-value-big">
+                      {gameStats.totalHits}
+                    </span>
+                  </div>
+                  <div className="stat-highlight">
+                    <span className="stat-label">총 타수</span>
+                    <span className="stat-value-big">
+                      {gameStats.totalAtBats}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="loading-stats">통계 불러오는 중...</div>
+            )}
+
+            <div className="game-over-buttons">
+              <button className="game-over-btn retry" onClick={onRetry}>
+                다시 하기
+              </button>
+
+              <button className="game-over-btn home" onClick={onGoHome}>
+                새 게임
+              </button>
+            </div>
           </div>
         </div>
       )}

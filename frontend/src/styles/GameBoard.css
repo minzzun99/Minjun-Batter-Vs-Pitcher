@@ -1,4 +1,3 @@
-/* 게임보드 전체 레이아웃 */
 .gameboard-container {
   display: flex;
   justify-content: center;
@@ -14,7 +13,6 @@
   color: #e2e8f0;
 }
 
-/* 헤더 */
 .gameboard-header {
   text-align: center;
   margin-bottom: 24px;
@@ -37,14 +35,9 @@
   color: #94a3b8;
 }
 
-/* ========================= */
-/*        GAME OVER MODAL    */
-/* ========================= */
-
 .game-over-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   background: rgba(15, 23, 42, 0.7);
@@ -56,14 +49,21 @@
 }
 
 .game-over-modal {
-  background: rgba(30, 41, 59, 0.9);
-  border-radius: 20px;
-  padding: 32px 40px;
+  background: radial-gradient(
+      circle at top,
+      rgba(56, 189, 248, 0.12),
+      transparent 55%
+    ),
+    rgba(30, 41, 59, 0.96);
+  border-radius: 24px;
+  padding: 32px 40px 28px;
   text-align: center;
   color: #e2e8f0;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
   animation: modalFadeIn 0.25s ease-out;
+  min-width: 360px;
+  max-width: 520px;
 }
 
 @keyframes modalFadeIn {
@@ -80,188 +80,185 @@
 .game-over-score {
   font-size: 48px;
   font-weight: 800;
-  margin: 20px 0;
+  margin: 20px 0 15px;
   color: #38bdf8;
 }
 
 .game-over-result {
   font-size: 28px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   font-weight: 700;
   color: #f1f5f9;
 }
 
+.game-stats-section {
+  margin-top: 18px;
+  padding: 18px 20px 16px;
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.85),
+    rgba(30, 41, 59, 0.95)
+  );
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.game-stats-title {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #e5f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.game-stats-category {
+  margin-top: 12px;
+}
+
+.game-stats-category h4 {
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #cbd5f5;
+  margin-bottom: 8px;
+}
+
+/* 안타/아웃 공통 그리드 */
+
+.game-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(70px, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* 아웃 전용 – 가운데 정렬 + 고정 폭 */
+
+.outs-grid {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.outs-grid .stat-box {
+  width: 120px;
+}
+
+/* 각 네모 박스 */
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 10px 8px 9px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.stat-label {
+  font-size: 16px;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e5f2ff;
+}
+
+/* 하단 요약 */
+.game-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(90px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.stat-highlight {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 14px 20px;
+  min-width: 95px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.stat-value-big {
+  display: block;
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+/* 통계 로딩 */
+
+.loading-stats {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+/* 새 게임 버튼 */
+
 .game-over-restart {
+  margin-top: 18px;
   padding: 14px 36px;
   border-radius: 12px;
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(135deg, #10b981, #059669);
+  background: linear-gradient(135deg, #137FEC, #0F6CD0); /* 🔵 메인 버튼 톤 */
   color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  width: 100%;
+}
+
+.game-over-restart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px rgba(29, 143, 255, 0.3);
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.game-over-btn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
-.game-over-restart:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+.game-over-btn.retry {
+  background: #3b82f6;
+  color: white;
 }
 
-/* ========================= */
-/*      스트라이크 존         */
-/* ========================= */
-
-.zone-container {
-  text-align: center;
-  margin-top: 20px;
+.game-over-btn.retry:hover {
+  background: #2563eb;
 }
 
-.zone-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #f1f5f9;
-  margin-bottom: 24px;
-  letter-spacing: -0.02em;
+.game-over-btn.home {
+  background: #64748b;
+  color: white;
 }
 
-.zone-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  max-width: 420px;
-  margin: 0 auto;
-}
-
-.zone-btn {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  font-size: 32px;
-  font-weight: 700;
-  border-radius: 16px;
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  color: #e2e8f0;
-  cursor: pointer;
-  transition: 0.25s ease;
-  backdrop-filter: blur(4px);
-}
-
-.zone-btn:hover:not(.disabled):not(.selected) {
-  transform: translateY(-4px);
-  background: rgba(51, 65, 85, 0.65);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-/* 핫존 (빨간색) */
-.zone-btn.hot-zone {
-  background: rgba(239, 68, 68, 0.5) !important;
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
-}
-
-/* 콜드존 (파란색) */
-.zone-btn.cold-zone {
-  background: rgba(59, 130, 246, 0.5) !important;
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-}
-
-/* 선택된 존 */
-.zone-btn.selected {
-  background: rgba(56, 189, 248, 0.3);
-  border-color: #38bdf8 !important;
-  border-width: 3px !important;
-  transform: scale(0.95);
-  color: #f0f9ff;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6) !important;
-}
-
-.zone-btn.disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* 존 번호 */
-.zone-number {
-  position: relative;
-  z-index: 1;
-}
-
-/* 공 애니메이션 */
-.baseball {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.5rem;
-  z-index: 2;
-  animation: pitch 0.5s ease-out;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
-}
-
-@keyframes pitch {
-  0% {
-    transform: translate(-50%, -200%) scale(0);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-/* 범례 */
-.zone-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 420px;
-  margin: 24px auto 0;
-  padding: 16px;
-  background: rgba(30, 41, 59, 0.6);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #e2e8f0;
-  font-size: 14px;
-}
-
-.legend-color {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  border: 2px solid rgba(148, 163, 184, 0.4);
-  flex-shrink: 0;
-}
-
-.legend-color.hot {
-  background: rgba(239, 68, 68, 0.6);
-  border-color: #ef4444;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
-}
-
-.legend-color.cold {
-  background: rgba(59, 130, 246, 0.6);
-  border-color: #3b82f6;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-}
-
-.legend-color.ball {
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.game-over-btn.home:hover {
+  background: #475569;
 }
