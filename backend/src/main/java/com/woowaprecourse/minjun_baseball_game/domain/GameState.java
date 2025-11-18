@@ -22,20 +22,22 @@ public class GameState {
         this.gameStatistics = new GameStatistics();
     }
 
-    public void update(PitchResult result) {
+    public PitchResult update(PitchResult result) {
         if (result.isSwingAndMiss()) {
-            handleSwingAndMiss();
-            return;
+            return handleSwingAndMiss();
         }
 
         if (result.isHit()) {
             handleHit(result);
-            return;
+            return result;
         }
 
         if (result.isOut()) {
             handleOut(result);
+            return result;
         }
+
+        return result;
     }
 
     //9회 기준 - 역전하면 아웃 카운트와 상관없이 게임 종료
@@ -67,9 +69,19 @@ public class GameState {
         return gameStatistics;
     }
 
-    private void handleSwingAndMiss() {
+    private PitchResult handleSwingAndMiss() {
         count.addStrike();
+
+        if (count.isStrikeOut()) {
+            gameStatistics.recordOut(OutType.STRIKE_OUT);
+            count.addOut();
+            count.resetStrike();
+            checkAndClearRunners();
+            return PitchResult.out(OutType.STRIKE_OUT);
+        }
+
         checkAndClearRunners();
+        return PitchResult.swingAndMiss();
     }
 
     private void handleHit(PitchResult result) {

@@ -14,11 +14,6 @@ public class Count {
 
     public void addStrike() {
         strike++;
-
-        if (isStrikeOut()) {
-            addOut();
-            resetStrike();
-        }
     }
 
     public void addOut() {
