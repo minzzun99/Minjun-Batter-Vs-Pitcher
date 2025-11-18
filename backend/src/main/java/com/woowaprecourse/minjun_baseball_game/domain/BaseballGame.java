@@ -34,10 +34,7 @@ public class BaseballGame {
         this.lastStrikeZone = strikeZone;
         this.lastPitchZone = userZone;
 
-        PitchResult result = judge.judge(userZone, strikeZone);
-        gameState.update(result);
-
-        return result;
+        return gameState.update(judge.judge(userZone, strikeZone));
     }
 
     public boolean isGameOver() {
