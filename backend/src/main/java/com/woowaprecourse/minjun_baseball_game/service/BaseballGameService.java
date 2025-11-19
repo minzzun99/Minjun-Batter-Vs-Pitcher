@@ -51,4 +51,11 @@ public class BaseballGameService {
         }
         return new BatterModeZoneStrategy(zoneRandomGenerator);
     }
+
+    public void removeGame(String gameId) {
+        BaseballGame game = games.remove(gameId);
+        if (game == null) {
+            throw new IllegalArgumentException(gameId + " : 존재하지 않는 게임입니다.");
+        }
+    }
 }

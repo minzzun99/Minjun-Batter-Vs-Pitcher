@@ -5,21 +5,25 @@
 .zone-container {
   text-align: center;
   margin-top: 20px;
+  width: 100%;  /* ✨ 추가! */
+  max-width: 420px;  /* ✨ 추가! CenterPanel과 같은 너비 */
+  margin-left: auto;  /* ✨ 추가! 중앙 정렬 */
+  margin-right: auto;  /* ✨ 추가! 중앙 정렬 */
 }
 
 .zone-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #f1f5f9;
-  margin-bottom: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
   letter-spacing: -0.02em;
 }
 
 .zone-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  max-width: 420px;
+  gap: 12px;
+  max-width: 400px;
   margin: 0 auto;
 }
 
@@ -29,48 +33,69 @@
   height: 120px;
   font-size: 32px;
   font-weight: 700;
-  border-radius: 16px;
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid #3b4754;
   color: #e2e8f0;
   cursor: pointer;
-  transition: 0.25s ease;
-  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
 }
 
 .zone-btn:hover:not(.disabled):not(.selected) {
-  transform: translateY(-4px);
-  background: rgba(51, 65, 85, 0.65);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  background: rgba(0, 0, 0, 0.3);
+  border-color: #4a5a6a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* 핫존 (빨간색) */
 .zone-btn.hot-zone {
-  background: rgba(239, 68, 68, 0.5) !important;
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.3);
+  border-color: #ef4444;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
 }
 
 /* 콜드존 (파란색) */
 .zone-btn.cold-zone {
-  background: rgba(59, 130, 246, 0.5) !important;
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
 }
 
-/* 선택된 존 */
-.zone-btn.selected {
-  background: rgba(56, 189, 248, 0.3);
-  border-color: #38bdf8 !important;
+/* 일반 존 선택 (청록색) - 핫존/콜드존 아닐 때만 */
+.zone-btn.selected:not(.hot-zone):not(.cold-zone) {
+  background: rgba(0, 245, 212, 0.2) !important;
+  border-color: #00f5d4 !important;
   border-width: 3px !important;
-  transform: scale(0.95);
-  color: #f0f9ff;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.6) !important;
+  transform: scale(0.98);
+  color: #00f5d4;
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.6) !important;
+}
+
+/* 핫존 선택 (빨간색 강조) */
+.zone-btn.hot-zone.selected {
+  background: rgba(239, 68, 68, 0.5) !important;
+  border-color: #ef4444 !important;
+  border-width: 3px !important;
+  transform: scale(0.98);
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.8) !important;
+}
+
+/* 콜드존 선택 (파란색 강조) */
+.zone-btn.cold-zone.selected {
+  background: rgba(59, 130, 246, 0.5) !important;
+  border-color: #3b82f6 !important;
+  border-width: 3px !important;
+  transform: scale(0.98);
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.8) !important;
 }
 
 /* 비활성화 */
 .zone-btn.disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -104,56 +129,4 @@
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
-}
-
-/* 범례 */
-
-.zone-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 420px;
-  margin: 24px auto 0;
-  padding: 16px;
-  background: rgba(30, 41, 59, 0.6);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #e2e8f0;
-  font-size: 14px;
-}
-
-.legend-color {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  border: 2px solid rgba(148, 163, 184, 0.4);
-  flex-shrink: 0;
-}
-
-.legend-color.hot {
-  background: rgba(239, 68, 68, 0.6);
-  border-color: #ef4444;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
-}
-
-.legend-color.cold {
-  background: rgba(59, 130, 246, 0.6);
-  border-color: #3b82f6;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-}
-
-.legend-color.ball {
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
