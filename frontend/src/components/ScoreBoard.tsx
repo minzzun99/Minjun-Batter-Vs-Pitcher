@@ -20,18 +20,33 @@ export const ScoreBoard = ({
   scoreBoard,
   pitchResult,
 }: ScoreBoardProps) => {
+
+  // 🎯 투구 결과 표시 문자열 생성
+  const getDisplayResult = () => {
+    const typeKor = pitchResultToKorean[pitchResult.type] ?? pitchResult.type;
+    const detailKor =
+      pitchResult.detail &&
+      (pitchResultToKorean[pitchResult.detail] ?? pitchResult.detail);
+
+    // ✅ 삼진 아웃 로직 (헛스윙 3번 → 삼진 아웃)
+    if (
+      pitchResult.type === "OUT" &&
+      pitchResult.detail === "STRIKE_OUT"
+    ) {
+      return "헛스윙 - 삼진 아웃";
+    }
+
+    // 기본 출력
+    if (pitchResult.detail) return `${typeKor} - ${detailKor}`;
+    return typeKor;
+  };
+
   return (
     <div className="sb-container">
       {/* 투구 결과 */}
       <div className="sb-result">
         <div className="sb-section-title">투구 결과</div>
-        <div className="sb-result-value">
-          {pitchResultToKorean[pitchResult.type] ?? pitchResult.type}
-          {pitchResult.detail &&
-            ` - ${
-              pitchResultToKorean[pitchResult.detail] ?? pitchResult.detail
-            }`}
-        </div>
+        <div className="sb-result-value">{getDisplayResult()}</div>
       </div>
 
       {/* 점수판 */}

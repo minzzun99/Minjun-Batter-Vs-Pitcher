@@ -1,0 +1,85 @@
+.center-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+
+  padding: 20px;
+  min-width: 260px;
+
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #3b4754;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.center-mode-badge {
+  background: rgba(0, 245, 212, 0.1);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+
+  font-size: 15px;
+  font-weight: 600;
+  color: #00f5d4;
+}
+
+.center-score-box {
+  width: 100%;
+  max-width: 220px;
+
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #3b4754;
+  border-radius: 10px;
+  padding: 16px;
+  gap: 6px;
+}
+
+.center-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.center-score-label {
+  color: #9dabb9;
+  font-size: 14px;
+}
+
+.center-score-value {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.center-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 6px 0;
+}
+
+.center-game-id {
+  color: #8fa4b6;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.center-result-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  width: 100%;
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid #3b4754;
+}
+
+.center-result-text {
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+}
