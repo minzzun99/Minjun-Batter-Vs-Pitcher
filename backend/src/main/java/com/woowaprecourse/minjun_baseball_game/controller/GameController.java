@@ -16,6 +16,7 @@ import com.woowaprecourse.minjun_baseball_game.service.BaseballGameService;
 import com.woowaprecourse.minjun_baseball_game.service.PlayerService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,5 +84,11 @@ public class GameController {
         BaseballGame game = gameService.getGame(gameId);
 
         return GameResultResponse.from(game);
+    }
+
+    // 게임 중단
+    @DeleteMapping("/{gameId}")
+    public void quitGame(@PathVariable String gameId) {
+        gameService.removeGame(gameId);
     }
 }
