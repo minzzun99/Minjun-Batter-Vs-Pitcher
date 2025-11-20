@@ -77,7 +77,6 @@ export const GameStart = ({ onGameStart }: GameStartProps) => {
       return;
     }
 
-    // ✅ 계산된 값 사용!
     onGameStart(
         selectedMode,
         selectedPlayer.id,
