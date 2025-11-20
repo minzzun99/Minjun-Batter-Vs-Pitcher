@@ -153,9 +153,6 @@ export const GameBoard = ({
                 <RightPanel runners={pitchResult?.runners}/>
             </div>
 
-            {/* 스트라이크 존 */}
-
-
             {/* 게임 종료 모달 */}
             {isGameOver && (
                 <div className="gb-modal-overlay">

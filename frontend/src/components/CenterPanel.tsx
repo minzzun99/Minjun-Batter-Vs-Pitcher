@@ -4,7 +4,7 @@ import {pitchResultToKorean} from "../utils/PitchResultMapper";
 export const CenterPanel = ({gameMode, scoreBoard, pitchResult, playerName}) => {
 
     const getKoreanResult = () => {
-        if (!pitchResult || !pitchResult.pitchResult) return "";
+        if (!pitchResult || !pitchResult.pitchResult) return "준비";
 
         const {type, detail} = pitchResult.pitchResult;
 
@@ -37,7 +37,6 @@ export const CenterPanel = ({gameMode, scoreBoard, pitchResult, playerName}) => 
 
                 <div className="center-divider"></div>
 
-                {/* ✨ Game ID 대신 플레이어 이름 */}
                 <div className="center-score-row">
                     <span className="center-score-label">타자</span>
                     <span className="center-score-value">{playerName || "알 수 없음"}</span>
