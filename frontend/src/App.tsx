@@ -13,12 +13,23 @@ function App() {
   const [pitchResult, setPitchResult] = useState<PitchResponse | null>(null);
   const [playerId, setPlayerId] = useState<number | null>(null);
 
+  const [playerInfo, setPlayerInfo] = useState<{
+    avg: string;
+    slg: string;
+    ops: string;
+  } | null>(null);
+  const [playerName, setPlayerName] = useState<string>("");
+
   // 시즌 기록
   const seasonAvg = 0.0;
   const seasonEra = 0.0;
 
-  /** 🎮 게임 시작 */
-  const handleGameStart = async (mode: GameMode, playerId: number) => {
+  // 게임 시작
+  const handleGameStart = async (
+      mode: GameMode,
+      playerId: number,
+      playerData: {name: string; avg: number; slg: number; ops: number}
+) => {
     try {
       const response = await gameApi.startGame(mode, playerId);
 
@@ -26,6 +37,15 @@ function App() {
       setGameId(response.gameId);
       setGameMode(response.gameMode);
       setGameStarted(true);
+
+      // 플레이어 정보 설정
+      setPlayerName(playerData.name);
+      setPlayerInfo({
+        avg: playerData.avg.toFixed(3),
+        slg: playerData.slg.toFixed(3),
+        ops: playerData.ops.toFixed(3)
+      });
+
 
       // 초기 상태 설정
       setPitchResult({
@@ -41,7 +61,7 @@ function App() {
     }
   };
 
-  /** ⚾ 투구 요청 */
+  // 투구 요청
   const handlePitch = async (zoneNumber: number) => {
     if (!gameId) return;
 
@@ -53,7 +73,7 @@ function App() {
     }
   };
 
-  /** 🔁 다시하기 — 같은 플레이어로 새 게임 진행 */
+  // 다시하기 - 같은 플레이어
   const handleRetry = async () => {
     if (!gameMode || playerId === null) return;
 
@@ -69,7 +89,7 @@ function App() {
         isGameOver: false,
       });
 
-      // GameBoard 유지!
+      // GameBoard 유지
       setGameStarted(true);
     } catch (err) {
       console.error(err);
@@ -77,13 +97,15 @@ function App() {
     }
   };
 
-  /** 🏠 메인으로 돌아가기 */
+  // 메인으로 돌아가기
   const handleGoHome = () => {
     setGameStarted(false);
     setGameId("");
     setGameMode(null);
     setPitchResult(null);
     setPlayerId(null);
+    setPlayerInfo(null);
+    setPlayerName("");
   };
 
   return (
@@ -107,6 +129,8 @@ function App() {
                 onPitch={handlePitch}
                 onGoHome={handleGoHome}
                 onRetry={handleRetry}
+                playerInfo={playerInfo}
+                playerName={playerName}
               />
             )
           }
