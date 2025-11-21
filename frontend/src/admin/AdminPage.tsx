@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PlayerTable from "../admin/PlayerTable";
 import PlayerForm from "../admin/PlayerForm";
-import "../styles/admin.css";
+import "../styles/Admin.css";
 
 export default function AdminPlayersPage() {
   const [players, setPlayers] = useState([]);
