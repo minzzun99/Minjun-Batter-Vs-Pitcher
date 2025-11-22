@@ -9,5 +9,6 @@ export const pitchResultToKorean: Record<string, string> = {
   HOMERUN: "홈런",
   OUT: "아웃",
   FLY_OUT: "플라이 아웃",
-  GROUND_OUT: "땅볼 아웃"
+  GROUND_OUT: "땅볼 아웃",
+  STRIKE_OUT: "삼진 아웃"
 };

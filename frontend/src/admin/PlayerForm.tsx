@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/playerForm.css";
+import "../styles/PlayerForm.css";
 
 interface PlayerFormProps {
   onSubmit: (playerData: any) => Promise<boolean>;

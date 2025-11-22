@@ -19,19 +19,49 @@
   border-radius: 10px;
 }
 
-.lp-title {
+.lp-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lp-section {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #3b4754;
+  border-radius: 10px;
+}
+
+.lp-stat-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.lp-stat-label {
   font-size: 14px;
   color: #9dabb9;
-  margin-bottom: 4px;
+  font-weight: 500;
 }
 
-.lp-value {
-  font-size: 20px;
+.lp-stat-value {
+  font-size: 16px;
   font-weight: 700;
-  color: white;
+  color: #ffffff;
 }
 
-/* 카운트 영역 */
+.lp-section-title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px;
+}
+
 .lp-counts {
   display: flex;
   gap: 12px;
@@ -39,16 +69,34 @@
 
 .lp-count-box {
   flex: 1;
-  padding: 14px;
+  padding: 5px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid #3b4754;
   text-align: center;
 }
 
+.lp-count-box.out {
+  flex: 1;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #3b4754;
+  color: #ef4444;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.lp-count-label.out {
+  color: #ef4444;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
 .lp-count-label {
   color: #9dabb9;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
@@ -59,14 +107,14 @@
 
 .lp-quit-button {
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 14px;
   margin-bottom: 20px;
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid rgba(239, 68, 68, 0.5);
   border-radius: 8px;
   color: #ef4444;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -80,3 +128,4 @@
 .lp-quit-button:active {
   transform: translateY(0);
 }
+

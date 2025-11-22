@@ -27,7 +27,7 @@
 
 .center-score-box {
   width: 100%;
-  max-width: 220px;
+  max-width: 240px;
 
   display: flex;
   flex-direction: column;
@@ -71,15 +71,16 @@
   margin-top: 8px;
   padding: 10px 14px;
   width: 100%;
+  max-width: 240px;
   text-align: center;
-
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   border: 1px solid #3b4754;
+  font-weight: 800;
 }
 
 .center-result-text {
   font-size: 16px;
   color: white;
-  font-weight: 600;
+  font-weight: 800;
 }

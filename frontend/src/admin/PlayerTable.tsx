@@ -1,4 +1,4 @@
-import "../styles/playerTable.css";
+import "../styles/PlayerTable.css";
 
 export default function PlayerTable({ players, onEdit, onDelete }) {
   return (

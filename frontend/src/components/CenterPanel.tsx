@@ -1,7 +1,17 @@
 import "../styles/CenterPanel.css";
 import {pitchResultToKorean} from "../utils/PitchResultMapper";
+import type {PitchResponse, ScoreBoard} from "../types/game";
 
-export const CenterPanel = ({gameMode, scoreBoard, pitchResult, playerName}) => {
+interface CenterPanelProps {
+    gameMode: string;
+    scoreBoard: ScoreBoard | undefined;
+    pitchResult: PitchResponse | null;
+    playerName?: string;
+}
+
+export const CenterPanel = ({
+                                gameMode, scoreBoard, pitchResult, playerName
+                            }: CenterPanelProps) => {
 
     const getKoreanResult = () => {
         if (!pitchResult || !pitchResult.pitchResult) return "준비";

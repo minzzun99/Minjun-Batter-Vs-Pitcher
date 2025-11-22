@@ -24,8 +24,8 @@ export interface BaseRunner {
 // 점수판
 export interface ScoreBoard {
   score: number;
-  opponentScore: number;
-  currentInning: number;
+  myScore: number;
+  computerScore: number;
 }
 
 // 게임 시작 요청 / 응답
@@ -42,10 +42,10 @@ export interface GameStartResponse {
 
 // 존 정보
 export interface ZoneInfoDto {
-  selectedZone: number;  // 사용자가 선택한 존
-  pitchZone: number;     // 실제 공이 들어간 존
-  hotZone: number;       // 안타 확률 높은 존
-  coldZone: number;      // 안타 확률 낮은 존
+  selectedZone: number;
+  pitchZone: number;
+  hotZone: number;
+  coldZone: number;
 }
 
 // 투구 요청 / 응답
