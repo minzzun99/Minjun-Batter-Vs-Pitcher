@@ -14,6 +14,16 @@ import org.junit.jupiter.api.Test;
 public class BaseballGameTest {
     private static final String PLAYER_NAME = "강민준";
 
+    private static final int TOTAL_AT_BATS = 100;
+    private static final int SINGLES = 25;
+    private static final int DOUBLES = 10;
+    private static final int TRIPLES = 5;
+    private static final int HOMERUNS = 10;
+
+    private BattingRecord createTestRecord(NumberGenerator generator) {
+        return new BattingRecord(PLAYER_NAME, TOTAL_AT_BATS, SINGLES, DOUBLES, TRIPLES, HOMERUNS, generator);
+    }
+
     @Nested
     @DisplayName("초기 상태 확인 테스트")
     class InitializeTest {
@@ -21,7 +31,7 @@ public class BaseballGameTest {
         @DisplayName("투수 모드 게임 생성 확인 테스트")
         void 투수모드_게임생성() {
             NumberGenerator generator = () -> 0.5;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame gameService = new BaseballGame(GameMode.PITCHER, record,
                     new PitcherModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -36,7 +46,7 @@ public class BaseballGameTest {
         @DisplayName("타자 모드 게임 생성 확인 테스트")
         void 타자모드_게임생성() {
             NumberGenerator generator = () -> 0.5;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame gameService = new BaseballGame(GameMode.BATTER, record,
                     new PitcherModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -55,7 +65,7 @@ public class BaseballGameTest {
         @DisplayName("정상 투구 진행 확인 테스트")
         void 정상_투구() {
             NumberGenerator generator = () -> 0.5;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame gameService = new BaseballGame(GameMode.BATTER, record,
                     new BatterModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -69,7 +79,7 @@ public class BaseballGameTest {
         @DisplayName("게임 종료 후 투구 예외 발생 테스트")
         void 게임종료_투구_예외_발생() {
             NumberGenerator generator = () -> 0.9;  // 항상 아웃
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame game = new BaseballGame(GameMode.BATTER, record,
                     new BatterModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -90,7 +100,7 @@ public class BaseballGameTest {
         @DisplayName("연속 투구 확인 테스트")
         void 연속_투구() {
             NumberGenerator generator = () -> 0.5;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame game = new BaseballGame(GameMode.BATTER, record,
                     new BatterModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -111,7 +121,7 @@ public class BaseballGameTest {
         @DisplayName("3아웃 시 게임 종료 확인 테스트")
         void 쓰리아웃_게임종료() {
             NumberGenerator generator = () -> 0.99;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame game = new BaseballGame(GameMode.BATTER, record,
                     new BatterModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator
@@ -128,7 +138,7 @@ public class BaseballGameTest {
         @DisplayName("게임 진행 중 결과 조회 예외 발생 테스트")
         void 게임진행중_결과조회_예외_발생() {
             NumberGenerator generator = () -> 0.5;
-            BattingRecord record = new BattingRecord(PLAYER_NAME, generator);
+            BattingRecord record = createTestRecord(generator);
             ZoneRandomGenerator zoneRandomGenerator = new ZoneRandomGenerator(generator);
             BaseballGame game = new BaseballGame(GameMode.BATTER, record,
                     new BatterModeZoneStrategy(zoneRandomGenerator), generator, zoneRandomGenerator

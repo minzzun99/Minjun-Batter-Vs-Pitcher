@@ -3,12 +3,26 @@ package com.woowaprecourse.minjun_baseball_game.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowaprecourse.minjun_baseball_game.domain.strategy.NumberGenerator;
+import com.woowaprecourse.minjun_baseball_game.domain.strategy.RandomNumberGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class PitchResultJudgeTest {
-    private final BattingRecord battingRecord = new BattingRecord("강민준", () -> 0.6);
+    private static final String PLAYER_NAME = "강민준";
+
+    private static final int TOTAL_AT_BATS = 100;
+    private static final int SINGLES = 25;
+    private static final int DOUBLES = 10;
+    private static final int TRIPLES = 5;
+    private static final int HOMERUNS = 10;
+
+    private BattingRecord createTestRecord(NumberGenerator generator) {
+        return new BattingRecord(PLAYER_NAME, TOTAL_AT_BATS, SINGLES, DOUBLES, TRIPLES, HOMERUNS, generator);
+    }
+
+    BattingRecord battingRecord = createTestRecord(() -> 0.6);
+
     private final StrikeZone strikeZone = new StrikeZone(new Zone(1), new Zone(9));
 
     @Nested
