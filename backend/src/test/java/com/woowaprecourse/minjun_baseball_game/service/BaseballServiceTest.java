@@ -5,15 +5,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowaprecourse.minjun_baseball_game.domain.BaseballGame;
 import com.woowaprecourse.minjun_baseball_game.domain.GameMode;
+import com.woowaprecourse.minjun_baseball_game.domain.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BaseballServiceTest {
+    private Player createTestPlayer() {
+        return new Player("강민준", 100, 25, 10, 5, 10);
+    }
+
     @Test
     @DisplayName("투수 모드 게임 생성 및 gameId 반환 테스트")
     void 투수모드_게임생성() {
         BaseballGameService gameService = new BaseballGameService();
-        String gameId = gameService.createGame(GameMode.PITCHER);
+        String gameId = gameService.createGame(GameMode.PITCHER, createTestPlayer());
 
         assertThat(gameId).isNotNull();
         assertThat(gameId).isNotEmpty();
@@ -23,7 +28,7 @@ public class BaseballServiceTest {
     @DisplayName("타자 모드 게임 생성 및 gameId 반환 테스트")
     void 타자모드_게임생성() {
         BaseballGameService gameService = new BaseballGameService();
-        String gameId = gameService.createGame(GameMode.BATTER);
+        String gameId = gameService.createGame(GameMode.BATTER, createTestPlayer());
 
         assertThat(gameId).isNotNull();
         assertThat(gameId).isNotEmpty();
@@ -33,7 +38,7 @@ public class BaseballServiceTest {
     @DisplayName("투수모드 gameId 게임 조회 테스트")
     void 투수모드_게임_조회() {
         BaseballGameService service = new BaseballGameService();
-        String gameId = service.createGame(GameMode.PITCHER);
+        String gameId = service.createGame(GameMode.PITCHER, createTestPlayer());
         BaseballGame game = service.getGame(gameId);
 
         assertThat(game).isNotNull();
@@ -45,7 +50,7 @@ public class BaseballServiceTest {
     @DisplayName("타자모드 gameId 게임 조회 테스트")
     void 타자모드_게임_조회() {
         BaseballGameService service = new BaseballGameService();
-        String gameId = service.createGame(GameMode.BATTER);
+        String gameId = service.createGame(GameMode.BATTER, createTestPlayer());
         BaseballGame game = service.getGame(gameId);
 
         assertThat(game).isNotNull();
@@ -68,8 +73,8 @@ public class BaseballServiceTest {
     void 여러_게임_생성() {
         BaseballGameService service = new BaseballGameService();
 
-        String gameId1 = service.createGame(GameMode.PITCHER);
-        String gameId2 = service.createGame(GameMode.BATTER);
+        String gameId1 = service.createGame(GameMode.PITCHER, createTestPlayer());
+        String gameId2 = service.createGame(GameMode.BATTER, createTestPlayer());
 
         BaseballGame game1 = service.getGame(gameId1);
         BaseballGame game2 = service.getGame(gameId2);

@@ -32,14 +32,13 @@ public class CountTest {
     }
 
     @Test
-    @DisplayName("삼진 아웃 아웃 카운트 증가 확인 테스트")
-    void 삼진_아웃_아웃카운트_증가() {
+    @DisplayName("삼진 아웃 여부 확인 테스트")
+    void 삼진_아웃_여부_확인() {
         Count count = new Count();
         count.addStrike();
         count.addStrike();
         count.addStrike();
-        assertThat(count.getStrike()).isEqualTo(0);
-        assertThat(count.getOut()).isEqualTo(1);
+        assertThat(count.isStrikeOut()).isTrue();
     }
 
     @Test
