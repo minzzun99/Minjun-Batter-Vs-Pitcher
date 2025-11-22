@@ -32,8 +32,7 @@ public class BattingRecordTest {
     @Test
     @DisplayName("타율 확인 테스트")
     void 타율_확인() {
-        double average = (double) 61 / 166;
-        assertThat(record.getBattingAverage()).isEqualTo(average);
+        assertThat(record.getBattingAverage()).isEqualTo(0.5);
     }
 
     @Test

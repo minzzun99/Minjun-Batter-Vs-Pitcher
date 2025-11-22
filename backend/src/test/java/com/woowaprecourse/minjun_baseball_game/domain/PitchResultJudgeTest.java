@@ -75,7 +75,7 @@ public class PitchResultJudgeTest {
         @Test
         @DisplayName("핫존 안타 결과 판정 테스트")
         void 안타_결과_판정() {
-            NumberGenerator generator = () -> 0.5;
+            NumberGenerator generator = () -> 0.6;
             PitchResultJudge resultJudge = new PitchResultJudge(battingRecord, generator);
 
             PitchResult result = resultJudge.judge(hotZone, strikeZone);
@@ -87,7 +87,7 @@ public class PitchResultJudgeTest {
         @Test
         @DisplayName("핫존 헛스윙 결과 판정 테스트")
         void 헛스윙_결과_판정() {
-            NumberGenerator generator = () -> 0.7;
+            NumberGenerator generator = () -> 0.8;
             PitchResultJudge resultJudge = new PitchResultJudge(battingRecord, generator);
 
             PitchResult result = resultJudge.judge(hotZone, strikeZone);
