@@ -55,11 +55,19 @@ export const GameBoard = ({
             const timer = setTimeout(() => {
                 setShowZoneInfo(false);
                 setSelectedZone(null);
-            }, 2500);
+            }, 2300);
 
             return () => clearTimeout(timer);
         }
     }, [pitchResult, isLoading]);
+
+    // pitchResult 초기화될 때 선택 존도 초기화
+    useEffect(() => {
+        if (pitchResult?.pitchResult?.type === "READY") {
+            setSelectedZone(null);
+            setShowZoneInfo(false);
+        }
+    }, [pitchResult]);
 
     const fetchGameResult = useCallback(async () => {
         try {
@@ -100,7 +108,7 @@ export const GameBoard = ({
         try {
             await onPitch(zone);
         } finally {
-            setTimeout(() => setIsLoading(false), 2600);
+            setTimeout(() => setIsLoading(false), 2300);
         }
     };
 

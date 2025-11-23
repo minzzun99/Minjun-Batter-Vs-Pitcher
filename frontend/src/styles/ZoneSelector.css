@@ -1,14 +1,10 @@
-/* ========================= */
-/*      스트라이크 존         */
-/* ========================= */
-
 .zone-container {
   text-align: center;
   margin-top: 20px;
-  width: 100%;  /* ✨ 추가! */
-  max-width: 420px;  /* ✨ 추가! CenterPanel과 같은 너비 */
-  margin-left: auto;  /* ✨ 추가! 중앙 정렬 */
-  margin-right: auto;  /* ✨ 추가! 중앙 정렬 */
+  width: 100%;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .zone-title {
