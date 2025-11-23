@@ -33,7 +33,7 @@ export const LeftPanel = ({
                 </button>
             )}
 
-            {/* 카운트 (Out / Strike) */}
+            {/* 아웃, 스트라이크 카운트*/}
             <div className="lp-count-container">
                 <div className="lp-count-box out">
                     <p className="lp-count-label out">OUT</p>

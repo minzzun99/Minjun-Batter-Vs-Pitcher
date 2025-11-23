@@ -26,7 +26,6 @@ export const CenterPanel = ({
 
     return (
         <div className="center-panel">
-            {/* 모드 배지 */}
             <div className="center-mode-badge">
                 {gameMode === "PITCHER" ? "투수 모드" : "타자 모드"}
             </div>
@@ -41,8 +40,8 @@ export const CenterPanel = ({
                 <div className="center-score-row">
                     <span className="center-score-label">AWAY</span>
                     <span className="center-score-value">
-            {scoreBoard?.computerScore ?? 0}
-          </span>
+                        {scoreBoard?.computerScore ?? 0}
+                    </span>
                 </div>
 
                 <div className="center-divider"></div>
@@ -53,8 +52,7 @@ export const CenterPanel = ({
                 </div>
             </div>
 
-            {/* 투구 결과 */
-            }
+            {/* 투구 결과 */}
             <div className="center-result-box">
                 {getKoreanResult()}
             </div>

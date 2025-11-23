@@ -55,8 +55,8 @@ function App() {
         scoreBoard: response.scoreBoard,
         isGameOver: false,
       });
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       alert("게임 시작 실패! 서버를 확인하세요.");
     }
   };
@@ -68,7 +68,8 @@ function App() {
     try {
       const result = await gameApi.pitch(gameId, zoneNumber);
       setPitchResult(result);
-    } catch (e) {
+    } catch (error) {
+      console.error(error);
       alert("투구 처리 실패!");
     }
   };
@@ -91,8 +92,8 @@ function App() {
 
       // GameBoard 유지
       setGameStarted(true);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       alert("다시하기 실패!");
     }
   };

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { GameMode } from "../types/game";
+import type { GameMode } from "../types/game";
+import { GAME_MODE } from "../types/game";
+import { gameApi } from "../services/gameApi";
 import { Link } from "react-router-dom";
 import "../styles/GameStart.css";
 
@@ -30,18 +32,25 @@ export const GameStart = ({ onGameStart }: GameStartProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerDto | null>(null);
 
   useEffect(() => {
-    fetch("/api/game/players")
-        .then((res) => res.json())
-        .then((data) => setPlayers(data))
-        .catch(() => alert("선수 목록 불러오기 실패"));
+      const loadPlayers = async () => {
+          try {
+              const data = await gameApi.getPlayers();
+              setPlayers(data);
+          } catch (error) {
+              console.error(error);
+              alert("선수 목록 불러오기 실패");
+          }
+      };
+
+      void loadPlayers();
   }, []);
 
-  // 계산 함수 -------------------------------
+  // 총 안타 수, 진루 베이스, 타율, 장타율, OPS 계산
   const calcTotalHits = (p: PlayerDto) =>
       p.singles + p.doubles + p.triples + p.homeRuns;
 
   const calcTotalBases = (p: PlayerDto) =>
-      p.singles * 1 + p.doubles * 2 + p.triples * 3 + p.homeRuns * 4;
+      p.singles + p.doubles * 2 + p.triples * 3 + p.homeRuns * 4;
 
   const calcAVG = (p: PlayerDto) =>
       p.totalAtBats > 0 ? (calcTotalHits(p) / p.totalAtBats) : 0;
@@ -106,18 +115,18 @@ export const GameStart = ({ onGameStart }: GameStartProps) => {
             <div className="gs-mode-container">
               <button
                   className={`gs-mode-btn ${
-                      selectedMode === GameMode.BATTER ? "selected" : ""
+                      selectedMode === GAME_MODE.BATTER ? "selected" : ""
                   }`}
-                  onClick={() => setSelectedMode(GameMode.BATTER)}
+                  onClick={() => setSelectedMode(GAME_MODE.BATTER)}
               >
                 타자 모드
               </button>
 
               <button
                   className={`gs-mode-btn ${
-                      selectedMode === GameMode.PITCHER ? "selected" : ""
+                      selectedMode === GAME_MODE.PITCHER ? "selected" : ""
                   }`}
-                  onClick={() => setSelectedMode(GameMode.PITCHER)}
+                  onClick={() => setSelectedMode(GAME_MODE.PITCHER)}
               >
                 투수 모드
               </button>
@@ -156,7 +165,7 @@ export const GameStart = ({ onGameStart }: GameStartProps) => {
                 </select>
               </div>
 
-              {/* 선택 전에도 0.000 기본값 보여줌 */}
+              {/* 선택 전에도 0.000 기본값 */}
               <div className="player-stats-grid">
                 <div className="player-stat-box">
                   <div className="player-stat-label">타율 AVG</div>

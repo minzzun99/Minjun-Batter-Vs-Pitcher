@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useCallback} from "react";
 import type {PitchResponse, GameStatistics} from "../types/game";
 import "../styles/GameBoard.css";
 
@@ -61,14 +61,7 @@ export const GameBoard = ({
         }
     }, [pitchResult, isLoading]);
 
-    // 게임 종료 → 통계 불러오기
-    useEffect(() => {
-        if (pitchResult?.isGameOver && !gameStats) {
-            fetchGameResult();
-        }
-    }, [pitchResult?.isGameOver]);
-
-    const fetchGameResult = async () => {
+    const fetchGameResult = useCallback(async () => {
         try {
             const response = await fetch(`/api/game/${gameId}/result`);
             const data = await response.json();
@@ -76,7 +69,14 @@ export const GameBoard = ({
         } catch (error) {
             console.error("Failed to fetch game result:", error);
         }
-    };
+    }, [gameId]);
+
+    // 게임 종료 → 통계 불러오기
+    useEffect(() => {
+        if (pitchResult?.isGameOver && !gameStats) {
+            void fetchGameResult();
+        }
+    }, [pitchResult?.isGameOver, gameStats, fetchGameResult]);
 
     const handleQuitGame = async () => {
         try {
@@ -85,7 +85,7 @@ export const GameBoard = ({
             });
             onGoHome();
         } catch (error) {
-            console.error("Failed to quit game:", error);
+            console.error("게임 종료 실패", error);
             // 실패해도 화면은 이동
             onGoHome();
         }
@@ -124,7 +124,7 @@ export const GameBoard = ({
 
             <div className="gb-panels-row">
                 <LeftPanel
-                    count={pitchResult?.count}
+                    count={pitchResult?.count ?? null}
                     hitterInfo={playerInfo ?? {avg: "0.000", slg: "0.000", ops: "0.000"}}
                     onQuit={handleQuitGame}
                     isGameOver={isGameOver}
@@ -133,7 +133,6 @@ export const GameBoard = ({
                 <div className="gb-center-panel">
                     <CenterPanel
                         gameMode={gameMode}
-                        gameId={gameId}
                         scoreBoard={pitchResult?.scoreBoard}
                         pitchResult={pitchResult}
                         playerName={playerName}
@@ -218,15 +217,14 @@ export const GameBoard = ({
     );
 };
 
-// 작은 컴포넌트
-const Stat = ({label, value}) => (
+const Stat = ({label, value}: {label: string; value: number}) => (
     <div className="stat-box">
         <span className="stat-label">{label}</span>
         <span className="stat-value">{value}</span>
     </div>
 );
 
-const Highlight = ({label, value}) => (
+const Highlight = ({label, value}: {label: string; value: string | number}) => (
     <div className="stat-highlight">
         <span className="stat-label">{label}</span>
         <span className="stat-value-big">{value}</span>
