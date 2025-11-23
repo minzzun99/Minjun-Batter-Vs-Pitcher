@@ -26,5 +26,5 @@ public class PlayerUpdateRequest {
     private int triples;
 
     @Min(0)
-    private int homeruns;
+    private int homeRuns;
 }

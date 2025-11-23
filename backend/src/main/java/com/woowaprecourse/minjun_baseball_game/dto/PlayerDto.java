@@ -20,7 +20,7 @@ public record PlayerDto(
                 player.getSingles(),
                 player.getDoubles(),
                 player.getTriples(),
-                player.getHomeruns(),   // ← 엔티티 필드명 주의!
+                player.getHomeRuns(),
                 player.getBattingAverage()
         );
     }
