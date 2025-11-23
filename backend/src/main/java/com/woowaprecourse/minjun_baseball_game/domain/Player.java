@@ -36,19 +36,19 @@ public class Player {
     private int triples;
 
     @Column(nullable = false)
-    private int homeruns;
+    private int homeRuns;
 
-    public Player(String name, int totalAtBats, int singles, int doubles, int triples, int homeruns) {
+    public Player(String name, int totalAtBats, int singles, int doubles, int triples, int homeRuns) {
         this.name = name;
         this.totalAtBats = totalAtBats;
         this.singles = singles;
         this.doubles = doubles;
         this.triples = triples;
-        this.homeruns = homeruns;
+        this.homeRuns = homeRuns;
     }
 
     public BattingRecord toBattingRecord(NumberGenerator numberGenerator) {
-        return new BattingRecord(this.name, this.totalAtBats, this.singles, this.doubles, this.triples, this.homeruns,
+        return new BattingRecord(this.name, this.totalAtBats, this.singles, this.doubles, this.triples, this.homeRuns,
                 numberGenerator);
     }
 
@@ -56,16 +56,16 @@ public class Player {
         if (totalAtBats == 0) {
             return 0.0;
         }
-        int totalHits = singles + doubles + triples + homeruns;
+        int totalHits = singles + doubles + triples + homeRuns;
         return (double) totalHits / totalAtBats;
     }
 
-    public void update(String name, int totalAtBats, int singles, int doubles, int triples, int homeruns) {
+    public void update(String name, int totalAtBats, int singles, int doubles, int triples, int homeRuns) {
         this.name = name;
         this.totalAtBats = totalAtBats;
         this.singles = singles;
         this.doubles = doubles;
         this.triples = triples;
-        this.homeruns = homeruns;
+        this.homeRuns = homeRuns;
     }
 }

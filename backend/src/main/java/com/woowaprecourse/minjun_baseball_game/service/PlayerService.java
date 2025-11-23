@@ -49,7 +49,7 @@ public class PlayerService {
     public PlayerDto updatePlayer(Long id, PlayerUpdateRequest request) {
         Player player = findById(id);
         player.update(request.getName(), request.getTotalAtBats(), request.getSingles(), request.getDoubles(),
-                request.getTriples(), request.getHomeruns());
+                request.getTriples(), request.getHomeRuns());
 
         return PlayerDto.from(player);
     }
