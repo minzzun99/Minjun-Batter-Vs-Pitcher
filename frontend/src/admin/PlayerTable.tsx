@@ -1,56 +1,63 @@
+import type {Player} from "../types/game";
 import "../styles/PlayerTable.css";
 
-export default function PlayerTable({ players, onEdit, onDelete }) {
-  return (
-    <div className="playertable-wrapper">
-      <table className="playertable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>타수</th>
-            <th>1루타</th>
-            <th>2루타</th>
-            <th>3루타</th>
-            <th>홈런</th>
-            <th>타율</th>
-            <th>수정 / 삭제</th>
-          </tr>
-        </thead>
+interface PlayerTableProps {
+    players: Player[];
+    onEdit: (player: Player) => void;
+    onDelete: (id: number) => void;
+}
 
-        <tbody>
-          {players.map((player) => (
-            <tr key={player.id}>
-              <td>{player.id}</td>
-              <td>{player.name}</td>
-              <td>{player.totalAtBats}</td>
-              
-              <td>{player.singles}</td>
-              <td>{player.doubles}</td>
-              <td>{player.triples}</td>
-              <td>{player.homeRuns}</td>
+export default function PlayerTable({players, onEdit, onDelete}: PlayerTableProps) {
+    return (
+        <div className="playertable-wrapper">
+            <table className="playertable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>타수</th>
+                    <th>1루타</th>
+                    <th>2루타</th>
+                    <th>3루타</th>
+                    <th>홈런</th>
+                    <th>타율</th>
+                    <th>수정 / 삭제</th>
+                </tr>
+                </thead>
 
-              <td>{player.battingAverage.toFixed(3)}</td>
+                <tbody>
+                {players.map((player) => (
+                    <tr key={player.id}>
+                        <td>{player.id}</td>
+                        <td>{player.name}</td>
+                        <td>{player.totalAtBats}</td>
 
-              <td className="playertable-actions">
-                <button
-                  onClick={() => onEdit(player)}
-                  className="playertable-btn edit"
-                >
-                  수정
-                </button>
+                        <td>{player.singles}</td>
+                        <td>{player.doubles}</td>
+                        <td>{player.triples}</td>
+                        <td>{player.homeRuns}</td>
 
-                <button
-                  onClick={() => onDelete(player.id)}
-                  className="playertable-btn delete"
-                >
-                  삭제
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+                        <td>{player.battingAverage.toFixed(3)}</td>
+
+                        <td className="playertable-actions">
+                            <button
+                                onClick={() => onEdit(player)}
+                                className="playertable-btn edit"
+                            >
+                                수정
+                            </button>
+
+                            <button
+                                onClick={() => onDelete(player.id)}
+                                className="playertable-btn delete"
+                            >
+                                삭제
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }

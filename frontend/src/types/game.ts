@@ -1,8 +1,10 @@
 // 게임 모드
-export enum GameMode {
-  PITCHER = "PITCHER",
-  BATTER = "BATTER",
-}
+export type GameMode = "PITCHER" | "BATTER";
+
+export const GAME_MODE = {
+  PITCHER: "PITCHER" as GameMode,
+  BATTER: "BATTER" as GameMode,
+} as const;
 
 // 공통 타입들
 export interface PitchResult {
@@ -90,5 +92,27 @@ export interface GameStatistics {
   totalHits: number;
   totalOuts: number;
   totalAtBats: number;
+  battingAverage: number;
+}
+
+export interface Player {
+  id: number;
+  name: string;
+  totalAtBats: number;
+  singles: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
+  battingAverage: number;
+}
+
+// 선수 생성/수정용
+export interface PlayerData {
+  name: string;
+  totalAtBats: number;
+  singles: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
   battingAverage: number;
 }
