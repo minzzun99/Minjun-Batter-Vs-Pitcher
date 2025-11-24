@@ -1,7 +1,8 @@
-# ⚾ 타자 강민준 Vs 투수 강민준
+# ⚾ 타자 강민준 vs 투수 강민준
 
-> 타자 강민준 vs 투수 강민준  
-> 실제 사회인야구 기록 기반 확률형 야구 게임
+> 실제 야구 기록을 기반으로 한 확률형 야구 시뮬레이션 게임
+
+🎮 **[게임 플레이하기](https://baseball-game.com)**
 
 ---
 
@@ -9,7 +10,7 @@
 
 9회말, 극적인 순간. 당신은 타자가 될 것인가, 투수가 될 것인가?
 
-실제 사회인야구 "강민준"의 게임원 타격 기록을 바탕으로 제작한 확률 기반 야구 시뮬레이션 게임입니다.
+실제 사회인야구 기록을 게임에 반영한다는 아이디어에서 시작된 확률 기반 야구 시뮬레이션 게임입니다.
 
 ### 게임 모드
 
@@ -25,20 +26,58 @@
 
 ---
 
+## 🎬 게임 플레이 미리보기
+
+![Gameplay GIF](https://github.com/user-attachments/assets/cf63157b-e06a-4a82-a1a6-0c0329fb13ea)
+
+<details>
+  <summary>세부 스크린샷 보기</summary>
+
+  <br/>
+  <img src="https://github.com/user-attachments/assets/7795cdf8-e63f-4e09-8361-ed46a2f6692f" width="500" />
+  <img src="https://github.com/user-attachments/assets/3ea853df-1115-4a8b-9e13-10bb6199056f" width="500" />
+  <img src="https://github.com/user-attachments/assets/afb0fe1c-31b2-4157-88e7-03365c35c50c" width="500" />
+  <img src="https://github.com/user-attachments/assets/5218aca9-7655-42e1-9527-f808b9dad050" width="500" />
+  <img src="https://github.com/user-attachments/assets/33f4b82e-da3a-4eb7-91c2-cbeab0ed353b" width="500" />
+  <img src="https://github.com/user-attachments/assets/892f5979-d22d-420d-82c7-1bdb03d5b38d" width="500" />
+  <img src="https://github.com/user-attachments/assets/bbda2a0a-5289-46a8-993a-0f3afa2ef875" width="500" />
+  <img src="https://github.com/user-attachments/assets/459ebd6e-f3f5-4a12-9150-d548fb68ae08" width="500" />
+  <img src="https://github.com/user-attachments/assets/f09bd073-9943-441d-af9a-685099feb9fb" width="500" />
+  <img src="https://github.com/user-attachments/assets/e1f3a6ee-a100-4f1f-8c7b-be7a5832eefc" width="500" />
+  <img src="https://github.com/user-attachments/assets/d9245d6d-3651-4919-973a-344e8e79ecf7" width="500" />
+  <img src="https://github.com/user-attachments/assets/fa77605b-cbc0-4e48-be99-702d51fdb4be" width="500" />
+
+</details>
+
+---
+
 ## 🛠️ 기술 스택
 
-### Backend
+### 📱 Frontend
+- React
+- TypeScript
+- Vite
+- Axios
+  
+### 🖥️ Backend
 - Java 21
-- Spring Boot 3.5.7
-  (추후 작성)
+- Spring Boot
+- Spring Data JPA
+- H2 Database
+  
+### ☁️ Infrastructure & DevOps
+- Oracle Cloud
+- Nginx
+- Cloudflare
+
 ---
 
 ## 📊 주요 기능
 
-- ⚾ 실제 타격 기록 기반 확률 시스템
+- 🎲 실제 타격 기록 기반 확률 시스템
 - 🎯 핫존 / 콜드존 메커니즘
-- 📈 게임 기록 저장 및 통계
-- 🎬 실제 투구 / 타격 영상 연출
+- 📝 선수 추가 · 수정 · 삭제 기능
+- 📈 게임 결과 통계
 
 ---
 ## 1. 게임 기본 안내
@@ -53,13 +92,15 @@
 - 초기 상황 : 9회초 0아웃, 홈팀(user) 2 : 0 어웨이(com) - 2점차 세이브 상황
 - 사용자는 투수로 플레이를 진행
 - 목표 : 3아웃을 잡아서 세이브하기
-- 패배 조건 : 역전 허용
+- 승리 조건 : 리드한 상태로 3아웃
+- 패배 조건 : 역전 허용 시 즉시 패배
 
 ### **1.3 타자 모드**
 
 - 초기 상황 : 9회말 0아웃, 홈팀(user) 0 : 2 어웨이(com) - 2점차로 지고 있는 상황
 - 사용자는 타자로 플레이 진행
 - 목표 : 3아웃이 되기 전까지 역전하기
+- 승리 조건 : 역전 시 즉시 승리
 - 패배 조건 : 지고 있는 상태로 3아웃
 
 ---
@@ -74,42 +115,45 @@
 ### 2.2 투수 모드 진행 방식 (사용자가 투수)
 
 - 매 투구마다 컴퓨터가 Hot Zone (타자 선호 구역)과 Cold Zone (타자 비선호 구역) 랜덤 지정
+- Hot Zone과 Cold Zone은 투구 이전에는 공개되지 않으며, 투구 결과 시에만 표기
 - 사용자는 9개의 구역 중 1개를 선택하여 투구를 진행
 - 볼 카운트는 없음
 - Hot Zone의 경우 안타 확률 증가 / Cold Zone의 경우 땅볼, 플라이 아웃, 헛스윙 확률 증가
 - 안타의 종류 1루타, 2루타, 3루타, 홈런의 경우 “강민준”의 게임원 타자 통산 기록을 반영
-- Hot Zone과 Cold Zone이 아닌 경우 타자는 안타(1루타, 2루타, 3루타, 홈런) 혹은 헛스윙만 가능
-- Hot Zone의 경우 “강민준”의 게임원 통산 타율 * 1.5 ⇒ 약 0.552
-- Cold Zone의 경우 “강민준”의 게임원 통산 타율 * 0.5 ⇒ 약 0.184
+
+**예시**
+- Hot Zone의 경우 “강민준”의 게임원 통산 타율 x 1.5 ⇒ 약 0.552
+- Cold Zone의 경우 “강민준”의 게임원 통산 타율 x 0.5 ⇒ 약 0.184
 
 ### 2.3 타자 모드 진행 방식 (사용자가 타자)
 
 - 매 투구마다 컴퓨터가 9개의 구역 중 1개의 공간으로 투구를 진행
 - 사용자는 9개의 구역 중 1개를 선택하여 타격을 진행 (Hot Zone 생성) ⇒ 노림수
-- Cold Zone의 경우 선택한 Hot Zone을 제외한 구역으로 랜덤 생성
+- Cold Zone의 경우 선택한 Hot Zone을 제외한 8개의 구역 중 1개 랜덤 생성
 - 볼 카운트는 없음
 - Hot Zone의 경우 안타 확률 증가 / Cold Zone의 경우 땅볼, 플라이 아웃, 헛스윙 확률 증가
 - 안타의 종류 1루타, 2루타, 3루타, 홈런의 경우 “강민준”의 게임원 타자 통산 기록을 반영
 - Hot Zone과 Cold Zone이 아닌 경우 타자는 안타(1루타, 2루타, 3루타, 홈런) 혹은 헛스윙만 가능
-- Hot Zone의 경우 “강민준”의 게임원 통산 타율 * 1.5 ⇒ 약 0.552
-- Cold Zone의 경우 “강민준”의 게임원 통산 타율 * 0.5 ⇒ 약 0.184
 
-### 2.4 안타 종류 결정
+**예시**
+- Hot Zone의 경우 “강민준”의 게임원 통산 타율 x 1.5 ⇒ 약 0.552
+- Cold Zone의 경우 “강민준”의 게임원 통산 타율 x 0.5 ⇒ 약 0.184
 
-2025.11.09 기준
+### 2.4 안타 종류 결정 (2025.11.09 기준)
 
-- 통산 기록의 총 안타 중 각 종류별 확률 반영
-- 1루타 확률 33/61 ⇒ 0.541
-- 2루타 확률 23/61 ⇒ 0.377
-- 3루타 확률 4/61 ⇒ 0.065
-- 홈런 확률 1/61 ⇒ 0.017
+| 안타 종류 | 개수 | 확률 |
+|----------|-----:|------:|
+| **1루타** | 33 | **0.541** |
+| **2루타** | 23 | **0.377** |
+| **3루타** | 4  | **0.065** |
+| **홈런**  | 1  | **0.017** |
 
 ### 2.5 병살타, 희생플라이, 진루
 
 - 타자 강민준은 병살타를 치지 않기 때문에 존재하지 않음
 - 희생플라이 조건
     - 주자가 3루에 있고, 플라이 아웃 판정인 경우
-    - 총 수비 숫자 9명 중 외야수(3명)가 잡을 경우 즉 3/9 → 0.333의 확률로 희생플라이 판정
+    - 총 수비 숫자 9명 중 외야수(3명)가 잡을 경우 9명의 수비수 중 외야수 3명 33.3%의 확률로 희생플라이 판정
 - 땅볼 아웃의 경우 진루는 없음
 
 ### 2.6 핫존, 콜드존, 일반존 확률표
